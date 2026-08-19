@@ -3,6 +3,7 @@ import { PageRoute, PackagePlan } from '../types';
 import { HeroSection } from './HeroSection';
 import { IntroManifestoSection } from './IntroManifestoSection';
 import { WhyUsSection } from './WhyUsSection';
+import { RetroVinylParallaxSection } from './RetroVinylParallaxSection';
 import { PACKAGES, REPERTOIRE_TRACKS } from '../data/bandData';
 import { 
   ArrowRight, 
@@ -47,6 +48,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* 3. Three Ticket Advantage Badges */}
       <WhyUsSection />
+
+      {/* 4. Retro Vinyl Parallax Floating Showcase (Behance-inspired floating scroll) */}
+      <RetroVinylParallaxSection />
 
       {/* 3. Band Highlight & Multi-Vocal Preview (Short & Cinematic) */}
       <section className="py-20 bg-[#1A1009] border-t border-[#3A2312] relative overflow-hidden">

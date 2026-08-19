@@ -1,78 +1,12 @@
 import React, { useState } from 'react';
-import { Camera, Eye, X, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Camera, Eye, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { NAKAMA_REAL_PHOTOS } from '../assets/nakamaPhotos';
 
 export const PhotoGallerySection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'all' | 'stage' | 'backstage' | 'looks'>('all');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const photos = [
-    {
-      id: 1,
-      title: 'Кульминация сольного рок-блока',
-      category: 'stage',
-      categoryName: 'Концерт',
-      location: 'Grand Hall Сибирь',
-      src: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
-    },
-    {
-      id: 2,
-      title: 'Вокальный ансамбль: 6 голосов в одном аккорде',
-      category: 'stage',
-      categoryName: 'Концерт',
-      location: 'Новосибирск',
-      src: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop',
-    },
-    {
-      id: 3,
-      title: 'Backstage: Настройка ушных мониторов со звукорежиссёром',
-      category: 'backstage',
-      categoryName: 'Backstage',
-      location: 'Гримерка КЗ',
-      src: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1200&auto=format&fit=crop',
-    },
-    {
-      id: 4,
-      title: 'Образ Black Tie Cinema: Сценическая классика',
-      category: 'looks',
-      categoryName: 'Lookbook',
-      location: 'Студийный сет',
-      src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop',
-    },
-    {
-      id: 5,
-      title: 'Драйв на свадебном танцполе',
-      category: 'stage',
-      categoryName: 'Концерт',
-      location: 'Бердский залив',
-      src: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=1200&auto=format&fit=crop',
-    },
-    {
-      id: 6,
-      title: 'Бас-гитара & Ритм-секция крупным планом',
-      category: 'stage',
-      categoryName: 'Концерт',
-      location: 'Томск',
-      src: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=1200&auto=format&fit=crop',
-    },
-    {
-      id: 7,
-      title: 'Lookbook Retro Glitz & Disco Shine',
-      category: 'looks',
-      categoryName: 'Lookbook',
-      location: 'Студия NAKAMA',
-      src: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop',
-    },
-    {
-      id: 8,
-      title: 'Эмоции гостей и первый танец молодоженов',
-      category: 'stage',
-      categoryName: 'Концерт',
-      location: 'Кемерово',
-      src: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop',
-    }
-  ];
-
-  const filteredPhotos = photos.filter(p => {
+  const filteredPhotos = NAKAMA_REAL_PHOTOS.filter(p => {
     if (activeTab === 'all') return true;
     return p.category === activeTab;
   });
@@ -116,7 +50,7 @@ export const PhotoGallerySection: React.FC = () => {
           </h2>
 
           <p className="text-sm sm:text-base text-[#F1D8C1]/75 leading-relaxed">
-            Сценическая энергетика, улыбки гостей, авторские костюмы и закулисье подготовки каждого выступления.
+            Сценическая энергетика, реальные кадры со сцены, авторские костюмы и закулисье подготовки каждого выступления.
           </p>
         </div>
 
@@ -142,7 +76,7 @@ export const PhotoGallerySection: React.FC = () => {
           ))}
         </div>
 
-        {/* Photos Grid (Masonry-like feel) */}
+        {/* Photos Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {filteredPhotos.map((photo, idx) => (
             <div

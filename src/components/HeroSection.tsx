@@ -4,7 +4,7 @@ import {
   Volume2, 
   ChevronDown
 } from 'lucide-react';
-import heroBgImg from '../assets/images/hero_studio_centered_ampeg.jpg';
+import heroBgImg from '../assets/images/шапка.jpg';
 import { BrandLogo } from './BrandLogo';
 import { audioEngine } from '../utils/audioEngine';
 
