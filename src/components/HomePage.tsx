@@ -101,13 +101,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Большинство кавер-групп выступают в составе из 4–5 человек и включают записанные бэк-вокалы (плейбеки). NAKAMA поёт в 6 живых голосов. Каждая гармония, терция и вокальный аккорд рождаются прямо на ваших глазах.
               </p>
 
-              <div className="grid grid-cols-2 gap-4 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-2xl bg-[#27170E] border border-[#3A2312]">
-                  <div className="text-2xl font-display font-bold text-[#F3A300] mb-1">6 вокалов</div>
+                  <div className="text-xl sm:text-2xl font-display font-bold text-[#F3A300] mb-1">6 вокалов</div>
                   <p className="text-xs text-[#F1D8C1]/60">Многоголосие без записанных фанер</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-[#27170E] border border-[#3A2312]">
-                  <div className="text-2xl font-display font-bold text-[#BA371E] mb-1">Звукорежиссёр</div>
+                  <div className="text-xl sm:text-2xl font-display font-bold text-[#BA371E] mb-1">Звукорежиссёр</div>
                   <p className="text-xs text-[#F1D8C1]/60">Штатный баланс звука в зале</p>
                 </div>
               </div>
