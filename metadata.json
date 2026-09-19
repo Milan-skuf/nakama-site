@@ -1,0 +1,6 @@
+{
+  "name": "NAKAMA — Кавер-группа",
+  "description": "Официальный сайт кавер-группы NAKAMA: 10 человек на сцене, живое многоголосое звучание, свой звукорежиссёр. Корпоративы, свадьбы, частные мероприятия по всей России.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
