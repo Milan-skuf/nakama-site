@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { CONTENT_IMAGES } from '../content';
 import { useTheme } from '../context/ThemeContext';
 
@@ -91,11 +92,11 @@ export const EditorialGalleryBlock: React.FC = () => {
                     isDark ? 'text-white' : 'text-[#141218]'
                   }`}
                 >
-                  «Ваш вечер — как кино. Мы создаём к нему саундтрек»
+                  Почему выбирают NAKAMA
                 </h2>
                 {/* Handwritten director cue */}
                 <p className="font-handwriting text-xl sm:text-2xl text-[#8CA069] dark:text-[#A6BE7E] -rotate-1 select-none">
-                  «режиссура звука и эмоций каждого кадра»
+                  «Ваш вечер — как кино. Мы создаём к нему саундтрек»
                 </p>
               </div>
 
@@ -121,7 +122,7 @@ export const EditorialGalleryBlock: React.FC = () => {
                       isDark ? 'text-white' : 'text-[#141218]'
                     }`}
                   >
-                    <span>Стандарты живого выступления:</span>
+                    <span>4 причины выбрать NAKAMA:</span>
                   </h3>
                   <span className="text-[10px] font-mono tracking-widest uppercase opacity-70">
                     Production Rules
@@ -135,10 +136,10 @@ export const EditorialGalleryBlock: React.FC = () => {
                     }`}
                   >
                     <div className={`font-display font-black text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                      Живой звук — без исключений
+                      Только живой звук
                     </div>
                     <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
-                      Никаких минусовок и плейбеков. Только настоящее живое дыхание 10 музыкантов на сцене.
+                      Никаких минусовок и записанных дорожек. Только то, что рождает мурашки и настоящий отклик.
                     </p>
                   </div>
 
@@ -148,10 +149,10 @@ export const EditorialGalleryBlock: React.FC = () => {
                     }`}
                   >
                     <div className={`font-display font-black text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                      Полный состав всегда
+                      6 вокалистов на сцене
                     </div>
                     <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
-                      6 вокалистов и 4 инструменталиста. Фирменное полифоническое звучание без «урезанных» версий.
+                      Полноценный вокальный ансамбль — не солист с подпевками, а живое многоголосое звучание с объёмом и глубиной.
                     </p>
                   </div>
 
@@ -161,10 +162,10 @@ export const EditorialGalleryBlock: React.FC = () => {
                     }`}
                   >
                     <div className={`font-display font-black text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                      Собственный звукорежиссёр
+                      Свой звукорежиссёр
                     </div>
                     <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
-                      Штатный звукорежиссёр за цифровым пультом гарантирует идеальный баланс в любом зале.
+                      Качество звука на вашем мероприятии под нашей ответственностью. Мы не перекладываем это на площадку.
                     </p>
                   </div>
 
@@ -174,10 +175,10 @@ export const EditorialGalleryBlock: React.FC = () => {
                     }`}
                   >
                     <div className={`font-display font-black text-xs uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                      Партнёрство с организатором
+                      Работаем со сценарием
                     </div>
                     <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
-                      Уважение к общему таймингу, согласованный сценарий и готовность за 2 часа до гостей.
+                      Созваниваемся с организатором и ведущим заранее, чтобы музыка попадала в нужный момент, а не звучала фоном.
                     </p>
                   </div>
                 </div>
@@ -236,13 +237,13 @@ export const EditorialGalleryBlock: React.FC = () => {
             isDark ? 'border-white/10' : 'border-black/10'
           }`}
         >
-          <span
-            className={`font-display text-sm sm:text-base font-black uppercase tracking-wider ${
+          <h2
+            className={`font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight ${
               isDark ? 'text-white' : 'text-[#141218]'
             }`}
           >
-            100% живой звук без плейбеков
-          </span>
+            Послушайте, как мы звучим
+          </h2>
 
           <div className="w-full aspect-video rounded-xl overflow-hidden bg-black relative">
             <video
@@ -252,6 +253,116 @@ export const EditorialGalleryBlock: React.FC = () => {
               playsInline
               className="w-full h-full absolute inset-0"
             />
+          </div>
+
+          <p
+            className={`text-xs sm:text-sm max-w-2xl leading-relaxed font-sans font-light ${
+              isDark ? 'text-neutral-300' : 'text-[#4A4552]'
+            }`}
+          >
+            Каждый кавер NAKAMA — самостоятельное произведение. Мы не копируем оригинал, а создаём версию, которая звучит интереснее.
+          </p>
+        </div>
+
+        {/* =========================================================================
+            4. БЛОК АНСАМБЛЬ (ПОЧЕМУ НАС ТАК МНОГО)
+           ========================================================================= */}
+        <div
+          className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pt-6 sm:pt-10 border-t ${
+            isDark ? 'border-white/10' : 'border-black/10'
+          }`}
+        >
+          <div className="lg:col-span-7 space-y-5">
+            <h2
+              className={`font-serif text-2xl sm:text-4xl md:text-5xl font-normal tracking-tight leading-tight ${
+                isDark ? 'text-white' : 'text-[#141218]'
+              }`}
+            >
+              Почему нас так много
+            </h2>
+            <div
+              className={`space-y-3 text-sm sm:text-base font-normal leading-relaxed ${
+                isDark ? 'text-neutral-300' : 'text-[#3E3A47]'
+              }`}
+            >
+              <p>
+                Большинство кавер-групп — это один-два вокалиста и инструментальная база. Звучит хорошо, но не так, как звучит настоящий ансамбль.
+              </p>
+              <p>
+                Когда на сцене шесть голосов, которые поют вместе — это не просто «больше людей». Это принципиально другое звучание — оно создаёт объём и глубину, которые не воспроизведёт ни один дуэт, насколько бы хорошо он ни пел.
+              </p>
+            </div>
+            <div className="pt-2">
+              <Link
+                to="/repertoire"
+                className={`inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-display font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-105 active:scale-95 ${
+                  isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-[#141218] text-white hover:bg-black'
+                }`}
+              >
+                Послушайте, как мы звучим
+              </Link>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <div
+              className={`relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border ${
+                isDark ? 'border-white/15' : 'border-black/15'
+              }`}
+            >
+              <img
+                src={CONTENT_IMAGES.vocalTrioLive}
+                alt="Вокалисты кавер-группы NAKAMA на сцене"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4">
+                <span className="badge-violet text-[10px] font-mono px-2.5 py-0.5 rounded-full uppercase font-bold">
+                  6 ВОКАЛОВ
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            5. БЛОК LOOKBOOK (СЦЕНИЧЕСКИЕ ОБРАЗЫ)
+           ========================================================================= */}
+        <div
+          className={`space-y-6 pt-6 sm:pt-10 border-t ${
+            isDark ? 'border-white/10' : 'border-black/10'
+          }`}
+        >
+          <span
+            className={`text-xs font-mono uppercase tracking-[0.25em] font-bold block ${
+              isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
+            }`}
+          >
+            / Lookbook
+          </span>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src={CONTENT_IMAGES.dsc09924}
+                alt="Сценический образ кавер-группы NAKAMA — вокальный ансамбль"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src={CONTENT_IMAGES.dsc00852}
+                alt="Сценический образ кавер-группы NAKAMA — живые инструменты"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src={CONTENT_IMAGES.dsc00684}
+                alt="Сценический образ кавер-группы NAKAMA — кино-концепция"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
           </div>
         </div>
       </div>

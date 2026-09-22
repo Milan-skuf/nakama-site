@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Phone, CheckCircle2, MapPin, Heart, MessageSquare, Send, X, Music } from 'lucide-react';
 import { CONTACT_INFO, MEDIA_LINKS } from '../data/content';
 import { LeadFormData } from '../types';
@@ -12,6 +12,7 @@ interface LeadFormProps {
   defaultEventType?: string;
   className?: string;
   theme?: 'light' | 'dark';
+  redirectTo?: string;
 }
 
 export const LeadForm: React.FC<LeadFormProps> = ({
@@ -19,8 +20,10 @@ export const LeadForm: React.FC<LeadFormProps> = ({
   subtitle = 'Бережная организация и 100% живой звук. Оставьте контакты — менеджер Анна свяжется с вами в течение часа для расчёта и согласования сценария.',
   defaultEventType = 'Свадьба',
   className = '',
+  redirectTo,
 }) => {
   const { isDark } = useTheme();
+  const navigate = useNavigate();
   const { favoriteTracks, count: favoritesCount, clearFavorites } = useFavorites();
   const [formData, setFormData] = useState<LeadFormData & { phone: string; comment: string }>({
     name: '',
@@ -35,6 +38,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [consent, setConsent] = useState(false);
+  const [consentTimestamp, setConsentTimestamp] = useState<string | null>(null);
   const [showSelectedTracks, setShowSelectedTracks] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -42,10 +46,15 @@ export const LeadForm: React.FC<LeadFormProps> = ({
     if (!consent) {
       return;
     }
+    setConsentTimestamp(new Date().toLocaleString('ru-RU'));
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setSubmitted(true);
+      if (redirectTo) {
+        navigate(redirectTo);
+      } else {
+        setSubmitted(true);
+      }
     }, 500);
   };
 
@@ -60,7 +69,9 @@ export const LeadForm: React.FC<LeadFormProps> = ({
     `Событие: ${formData.eventType}\n` +
     `Дата: ${formData.eventDate || 'Уточняется'}\n` +
     `Город: ${formData.city}\n` +
+    (formData.budget ? `Бюджет: ${formData.budget}\n` : '') +
     (formData.comment ? `Комментарий: ${formData.comment}\n` : '') +
+    (consentTimestamp ? `Согласие на обработку ПД: получено ${consentTimestamp}\n` : '') +
     selectedSongsText;
 
   const encodedTelegramMsg = encodeURIComponent(leadMessage);
@@ -131,8 +142,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({
           }`}
         >
           <img
-            src={MEDIA_LINKS.lookbook2WhyNeeded}
-            alt="Атмосфера живого выступления группы NAKAMA"
+            src={MEDIA_LINKS.finalCtaGroupPhoto}
+            alt="Живое выступление кавер-группы NAKAMA"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
               isDark ? 'opacity-60 filter brightness-90' : 'opacity-85 filter brightness-100'
             }`}
@@ -462,7 +473,32 @@ export const LeadForm: React.FC<LeadFormProps> = ({
                   <option value="Выпускной">Выпускной</option>
                   <option value="Частный праздник">Частный праздник</option>
                   <option value="Фестиваль">Фестиваль / Городское событие</option>
+                  <option value="Другое">Другое</option>
                 </select>
+              </div>
+
+              {/* Бюджет (необязательно) */}
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="form-budget"
+                  className={`block text-xs font-display font-black uppercase tracking-wider ${
+                    isDark ? 'text-neutral-300' : 'text-[#2D2933]'
+                  }`}
+                >
+                  Бюджет <span className="normal-case font-sans font-normal opacity-60">(необязательно)</span>
+                </label>
+                <input
+                  type="text"
+                  id="form-budget"
+                  value={formData.budget}
+                  onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                  placeholder="например, до 100 000 ₽"
+                  className={`w-full px-4 py-3 rounded-2xl outline-none text-sm font-sans transition-all ${
+                    isDark
+                      ? 'bg-white/[0.06] border border-white/15 focus:border-[#D49D42] focus:bg-white/[0.1] text-white placeholder:text-neutral-500'
+                      : 'bg-white border border-black/15 focus:border-[#B88228] text-[#141218] placeholder:text-neutral-400 shadow-sm'
+                  }`}
+                />
               </div>
 
               {/* Комментарий */}
@@ -556,7 +592,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({
                       : 'bg-[#141218] text-white hover:bg-black'
                   }`}
                 >
-                  {loading ? 'ОТПРАВКА...' : 'ОТПРАВИТЬ ЗАЯВКУ НА БРОНИРОВАНИЕ'}
+                  {loading ? 'ОТПРАВКА...' : 'ОСТАВИТЬ ЗАЯВКУ'}
                 </button>
               </div>
             </form>

@@ -1,61 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LocalVideoPlayer } from '../components/LocalVideoPlayer';
 import { LeadForm } from '../components/LeadForm';
 import { useTheme } from '../context/ThemeContext';
 import { usePageMeta } from '../utils/usePageMeta';
+import { Clock } from 'lucide-react';
 
-const VIDEO_CATEGORIES = [
-  { key: 'all', label: 'все видео' },
-  { key: 'wedding', label: 'на свадьбе' },
-  { key: 'corporate', label: 'на корпоративе' },
-  { key: 'backstage', label: 'backstage' },
-  { key: 'solo', label: 'отдельные номера' },
+interface VideoItem {
+  id: string;
+  label: string;
+  src?: string;
+}
+
+const BACKSTAGE_VIDEOS: VideoItem[] = [
+  { id: 'bs-1', label: 'Репетиция', src: '/video/nakama-backstage.mp4' },
+  { id: 'bs-2', label: 'Репетиция', src: '/video/nakama-rehearsal.mp4' },
+  { id: 'bs-3', label: 'Фотодень, осень 2025' },
+  { id: 'bs-4', label: 'Фотодень, осень 2025' },
+  { id: 'bs-5', label: 'Фотодень, август 2026' },
+  { id: 'bs-6', label: 'Корпоратив, автошкола «За рулём» 2025' },
+  { id: 'bs-7', label: 'Корпоратив, автошкола «За рулём» 2025' },
+  { id: 'bs-8', label: 'Свадьба, весна 2026' },
+  { id: 'bs-9', label: 'Новогодний корпоратив 2025' },
+  { id: 'bs-10', label: 'Съёмка промо 2025' },
+  { id: 'bs-11', label: 'Съёмка промо 2025' },
+  { id: 'bs-12', label: 'Съёмка промо 2025' },
 ];
 
-const VIDEO_GALLERY = [
-  {
-    id: 'v1',
-    category: 'corporate',
-    title: 'живой сет на корпоративном вечере',
-    eventInfo: 'Корпоративное мероприятие, 2025',
-    badge: 'живой звук 10 чел',
-  },
-  {
-    id: 'v2',
-    category: 'wedding',
-    title: 'первый танец и танцевальный блок',
-    eventInfo: 'Свадебное торжество, 2025',
-    badge: 'свадебный сет',
-  },
-  {
-    id: 'v3',
-    category: 'solo',
-    title: 'вокальное многоголосье и инструменты',
-    eventInfo: 'Концертная площадка, 2025',
-    badge: 'фирменный номер',
-  },
-  {
-    id: 'v4',
-    category: 'backstage',
-    title: 'саундчек со звукорежиссёром и подготовка',
-    eventInfo: 'Backstage, подготовка к мероприятию',
-    badge: 'за кулисами',
-  },
+const LIVE_VIDEOS: VideoItem[] = [
+  { id: 'lv-1', label: 'Корпоратив, автошкола «За рулём» 2025', src: '/video/nakama-corporate-zarulem-2025.mp4' },
+  { id: 'lv-2', label: 'Новогодний корпоратив 2025' },
+  { id: 'lv-3', label: 'Выступление в ресторане «Пели ели на качели»' },
+  { id: 'lv-4', label: 'Свадьба, весна 2026' },
+  { id: 'lv-5', label: 'Выступление в ресторане «Пели ели на качели»' },
+  { id: 'lv-6', label: 'Свадьба, весна 2026' },
+  { id: 'lv-7', label: 'Выступление в ресторане «Пели ели на качели»' },
+  { id: 'lv-8', label: 'Новогодний корпоратив 2025' },
+  { id: 'lv-9', label: 'Выступление в ресторане «Пели ели на качели»' },
+  { id: 'lv-10', label: 'Свадьба, весна 2026' },
 ];
+
+const VideoTile: React.FC<{ item: VideoItem; isDark: boolean }> = ({ item, isDark }) => (
+  <div
+    className={`glass-card-frosted rounded-[28px] overflow-hidden shadow-xl border ${
+      isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#141218]'
+    }`}
+  >
+    <div className={`relative aspect-video ${isDark ? 'bg-black/40' : 'bg-black/5'}`}>
+      {item.src ? (
+        <video src={item.src} controls preload="metadata" playsInline className="w-full h-full" />
+      ) : (
+        <div
+          className={`w-full h-full flex flex-col items-center justify-center gap-2 border-2 border-dashed ${
+            isDark ? 'border-white/15 text-neutral-500' : 'border-black/10 text-neutral-400'
+          }`}
+        >
+          <Clock className="w-6 h-6" />
+          <span className="text-[10px] font-mono uppercase tracking-wider">Видео скоро появится</span>
+        </div>
+      )}
+    </div>
+    <div className="p-4">
+      <p className={`text-xs sm:text-sm font-sans ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+        {item.label}
+      </p>
+    </div>
+  </div>
+);
 
 export const VideoPage: React.FC = () => {
   const { isDark } = useTheme();
-  const [activeCategory, setActiveCategory] = useState('all');
 
   usePageMeta(
-    'Видео выступлений | Кавер-группа NAKAMA',
-    'Видео живых выступлений кавер-группы NAKAMA: свадьбы, корпоративы, backstage. Смотрите, как звучит и выглядит группа на реальных мероприятиях.'
+    'Видео кавер-группы NAKAMA | Новосибирск',
+    'Видео живых выступлений кавер-группы NAKAMA: свадьбы, корпоративы, backstage. Смотрите, как звучит и выглядит группа на реальных мероприятиях в Новосибирске и других городах.'
   );
-
-  const filteredVideos =
-    activeCategory === 'all'
-      ? VIDEO_GALLERY
-      : VIDEO_GALLERY.filter((v) => v.category === activeCategory);
 
   return (
     <div
@@ -86,7 +104,7 @@ export const VideoPage: React.FC = () => {
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
-            Видеозаписи выступлений
+            Видео кавер-группы NAKAMA
           </h1>
 
           <p
@@ -94,7 +112,7 @@ export const VideoPage: React.FC = () => {
               isDark ? 'text-neutral-300' : 'text-[#4A4552]'
             }`}
           >
-            Посмотрите, как звучит и выглядит группа NAKAMA на реальных мероприятиях и сценах.
+            Слова и фотографии не передают главного — энергии зала. Здесь можно увидеть, как проходят наши выступления на самом деле: без монтажной магии, ровно так, как это увидят ваши гости.
           </p>
         </div>
 
@@ -119,106 +137,54 @@ export const VideoPage: React.FC = () => {
           <LocalVideoPlayer src="/video/nakama-promo.mp4" />
         </section>
 
-        {/* Live videos & clips section */}
-        <section className="space-y-8">
+        {/* Как это было */}
+        <section className="space-y-10">
           <div
-            className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b ${
+            className={`pb-4 border-b ${
               isDark ? 'border-white/15' : 'border-black/10'
             }`}
           >
-            <div>
-              <span
-                className={`text-xs uppercase tracking-[0.2em] font-mono font-bold block mb-1 ${
-                  isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
-                }`}
-              >
-                / АРХИВ
-              </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight">
-                Записи с мероприятий
-              </h2>
-            </div>
+            <span
+              className={`text-xs uppercase tracking-[0.2em] font-mono font-bold block mb-1 ${
+                isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
+              }`}
+            >
+              / АРХИВ
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight">
+              Как это было
+            </h2>
+          </div>
 
-            {/* Filter Pills */}
-            <div className="flex flex-wrap gap-2">
-              {VIDEO_CATEGORIES.map((cat) => {
-                const active = activeCategory === cat.key;
-                return (
-                  <button
-                    key={cat.key}
-                    type="button"
-                    onClick={() => setActiveCategory(cat.key)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer uppercase tracking-wider border ${
-                      active
-                        ? isDark
-                          ? 'bg-white text-black font-bold shadow-md border-white'
-                          : 'bg-[#141218] text-white font-bold shadow-md border-[#141218]'
-                        : isDark
-                        ? 'bg-white/10 text-neutral-300 border-white/15 hover:text-white hover:bg-white/20'
-                        : 'bg-black/5 text-[#4A4552] border-black/10 hover:text-[#141218] hover:bg-black/10'
-                    }`}
-                  >
-                    {cat.label}
-                  </button>
-                );
-              })}
+          <div className="space-y-5">
+            <h3 className="font-display text-sm font-black uppercase tracking-wider">
+              Закулисье
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {BACKSTAGE_VIDEOS.map((item) => (
+                <VideoTile key={item.id} item={item} isDark={isDark} />
+              ))}
             </div>
           </div>
 
-          {/* Grid of Videos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-            {filteredVideos.map((video) => (
-              <div
-                key={video.id}
-                className={`glass-card-frosted glass-card-hover rounded-[32px] overflow-hidden flex flex-col justify-between shadow-xl border ${
-                  isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#141218]'
-                }`}
-              >
-                <div className="relative aspect-video bg-[#0A090D]">
-                  <video
-                    src="/video/nakama-promo.mp4"
-                    controls
-                    preload="metadata"
-                    playsInline
-                    className="w-full h-full"
-                  />
-                </div>
-
-                <div className="p-6 space-y-3">
-                  <div className="flex items-center justify-between text-xs">
-                    <span
-                      className={`px-3 py-1 rounded-full text-[10px] uppercase font-mono font-bold border ${
-                        isDark
-                          ? 'bg-[#D49D42]/15 border-[#D49D42]/30 text-[#D49D42]'
-                          : 'bg-[#B88228]/15 border-[#B88228]/30 text-[#B88228]'
-                      }`}
-                    >
-                      {video.badge}
-                    </span>
-                  </div>
-
-                  <h3 className="font-serif text-lg sm:text-xl font-normal tracking-tight">
-                    {video.title}
-                  </h3>
-
-                  <p
-                    className={`text-xs sm:text-sm font-sans font-light ${
-                      isDark ? 'text-neutral-400' : 'text-[#686370]'
-                    }`}
-                  >
-                    {video.eventInfo}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="space-y-5">
+            <h3 className="font-display text-sm font-black uppercase tracking-wider">
+              Живые видео с мероприятий
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {LIVE_VIDEOS.map((item) => (
+                <VideoTile key={item.id} item={item} isDark={isDark} />
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Booking Form */}
+        {/* Финальный CTA-блок */}
         <section>
           <LeadForm
-            title="Хотите услышать нас вживую?"
-            subtitle="Оставьте заявку на бронирование даты выступления."
+            title="Представили нас на своём празднике?"
+            subtitle="Оставьте заявку — обсудим дату, площадку и программу."
+            redirectTo="/thanks"
           />
         </section>
       </div>

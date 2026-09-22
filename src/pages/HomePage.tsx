@@ -28,8 +28,8 @@ export const HomePage: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   usePageMeta(
-    'NAKAMA — Кавер-группа 10 человек, 6 голосов, 100% живой звук | Новосибирск и вся Россия',
-    'Официальный сайт кавер-группы NAKAMA: 10 человек на сцене, живое многоголосое звучание, свой звукорежиссёр. Корпоративы, свадьбы, частные мероприятия по всей России.'
+    'NAKAMA — Кавер-группа на корпоратив и свадьбу в Новосибирске | Живой звук, 10 человек',
+    'Кавер-группа NAKAMA: 10 человек на сцене, живое многоголосое звучание, свой звукорежиссёр. Корпоративы, свадьбы и частные мероприятия в Новосибирске и по всей России. Узнать стоимость →'
   );
 
   const handleDownloadRider = (fileName: string, title: string) => {
@@ -117,7 +117,7 @@ export const HomePage: React.FC = () => {
         <div className="absolute inset-0 z-0">
           <img
             src={MEDIA_LINKS.heroMain}
-            alt="Кавер-группа NAKAMA"
+            alt="Кавер-группа NAKAMA — живое выступление"
             className="w-full h-full object-cover object-center transition-all duration-1000 transform scale-100 filter brightness-[0.88] contrast-[1.05]"
           />
           {/* Top subtle vignette for header clarity */}
@@ -136,7 +136,11 @@ export const HomePage: React.FC = () => {
            ========================================================================= */}
         <div className="relative z-10 w-full px-4 sm:px-8 text-center flex flex-col items-center justify-center my-auto space-y-2">
           <h1 className="hero-title-warm font-serif-vintage text-5xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[130px] font-normal uppercase tracking-tight leading-none select-none text-[#D6C2A5]/90">
+            <span className="block font-mono text-xs sm:text-sm md:text-base tracking-[0.3em] normal-case font-normal text-[#D9C9A8] mb-1 sm:mb-2">
+              Кавер-группа
+            </span>
             NAKAMA
+            <span className="sr-only"> — живая музыка для вашего мероприятия в Новосибирске и по всей России</span>
           </h1>
           <p className="font-handwriting text-2xl sm:text-3xl md:text-4xl text-[#E8DCC8] drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] -rotate-1 select-none">
             «саундтрек к вашему вечеру»
@@ -154,7 +158,7 @@ export const HomePage: React.FC = () => {
             </p>
 
             <p className="text-xs sm:text-sm text-white/90 keep-white max-w-2xl font-light leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-              Кавер-группа из Сибири. 10 человек на сцене. Живое многоголосое звучание,<br />которого нет ни у одного конкурента на российском рынке.
+              Живая музыка, которая усиливает важные моменты вечера,<br />а не прерывает их.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-6 sm:gap-8">
@@ -491,7 +495,7 @@ export const HomePage: React.FC = () => {
                   isDark ? 'text-white' : 'text-[#141218]'
                 }`}
               >
-                ИСТОРИИ СОБЫТИЙ И ОТЗЫВЫ
+                Что говорят организаторы
               </h2>
             </div>
             <Link
@@ -1245,7 +1249,7 @@ export const HomePage: React.FC = () => {
                 / ПРОЗРАЧНЫЙ ПРОЦЕСС
               </span>
               <h2 className="font-serif text-2xl sm:text-4xl font-normal tracking-tight">
-                Как мы готовимся к вашему вечеру
+                От заявки до финального аккорда — 4 шага
               </h2>
             </div>
             <p
@@ -1253,7 +1257,7 @@ export const HomePage: React.FC = () => {
                 isDark ? 'text-neutral-400' : 'text-[#686370]'
               }`}
             >
-              4 простых шага до оваций
+              Приедем в любую точку России
             </p>
           </div>
 
@@ -1271,14 +1275,14 @@ export const HomePage: React.FC = () => {
                 01
               </div>
               <h3 className="font-serif text-lg font-normal tracking-tight">
-                Заявка и дата
+                Заявка
               </h3>
               <p
                 className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Оставляете запрос на сайте или в Telegram. Фиксируем дату в концертном графике группы.
+                Оставляете заявку на сайте или пишете напрямую менеджеру. Ответим в течение нескольких часов.
               </p>
             </div>
 
@@ -1291,14 +1295,14 @@ export const HomePage: React.FC = () => {
                 02
               </div>
               <h3 className="font-serif text-lg font-normal tracking-tight">
-                Подбор репертуара
+                Погружение в сценарий
               </h3>
               <p
                 className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Утверждаем любимые песни из 100+ треков или разучиваем персональный спецкавер под вас.
+                Созваниваемся с вами и ведущим: разбираем структуру вечера, тайминг, ключевые моменты. Выстраиваем программу так, чтобы музыка усиливала важные моменты — а не просто заполняла паузы.
               </p>
             </div>
 
@@ -1311,14 +1315,14 @@ export const HomePage: React.FC = () => {
                 03
               </div>
               <h3 className="font-serif text-lg font-normal tracking-tight">
-                Саундчек за 2 часа
+                Подготовка
               </h3>
               <p
                 className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Приезжаем заранее. Наш звукорежиссёр идеально отстраивает тракт до появления первого гостя.
+                Готовим и согласовываем программу вашего вечера: треки, костюмы, тайминг. Никаких сюрпризов в день мероприятия.
               </p>
             </div>
 
@@ -1331,17 +1335,25 @@ export const HomePage: React.FC = () => {
                 04
               </div>
               <h3 className="font-serif text-lg font-normal tracking-tight">
-                Живое шоу и овации
+                Выступление
               </h3>
               <p
                 className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                10 музыкантов на сцене, 6 вокалов, чистый драйв и хоровое пение зала до финального аккорда.
+                Приезжаем со своим звукорежиссёром, проводим саундчек и отыгрываем так, что ваши гости не захотят уходить домой.
               </p>
             </div>
           </div>
+
+          <p
+            className={`text-xs sm:text-sm text-center font-sans font-light pt-2 ${
+              isDark ? 'text-neutral-400' : 'text-[#686370]'
+            }`}
+          >
+            Приедем в любую точку России — работаем по всей стране, не только в Сибири.
+          </p>
         </section>
 
         {/* =========================================================================
@@ -1349,8 +1361,8 @@ export const HomePage: React.FC = () => {
            ========================================================================= */}
         <section>
           <LeadForm
-            title="ЗАБРОНИРОВАТЬ ДАТУ ВЫСТУПЛЕНИЯ"
-            subtitle="Оставьте контакты и дату события — менеджер Анна свяжется с вами в течение часа для расчёта сметы и согласования трек-листа."
+            title="Готовы сделать свой вечер незабываемым?"
+            subtitle="Оставьте заявку — ответим в течение нескольких часов и обсудим детали вашего мероприятия."
           />
         </section>
       </div>

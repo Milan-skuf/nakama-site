@@ -56,6 +56,10 @@ export const PrivacyPage: React.FC = () => {
             Политика конфиденциальности
           </h1>
 
+          <p className={`text-xs font-mono uppercase tracking-wider ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+            Дата публикации: 20.09.2026
+          </p>
+
           <div
             className={`space-y-6 text-xs sm:text-sm font-sans leading-relaxed font-light ${
               isDark ? 'text-neutral-300' : 'text-[#3E3A45]'
@@ -150,7 +154,7 @@ export const PrivacyPage: React.FC = () => {
 
           <div className="pt-6 border-t border-white/15 flex flex-wrap gap-4 items-center justify-between">
             <span className="text-[11px] font-mono opacity-70">
-              Редакция от 2026 г. • Кавер-группа NAKAMA
+              Кавер-группа NAKAMA
             </span>
             <Link
               to="/consent"

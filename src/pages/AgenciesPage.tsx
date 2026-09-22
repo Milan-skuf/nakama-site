@@ -1,47 +1,30 @@
 import React from 'react';
-import { Download, Phone, Send } from 'lucide-react';
-import { CONTACT_INFO, PHOTO_SLOTS_MAP } from '../data/content';
-import { LeadForm } from '../components/LeadForm';
-import { PhotoSlotPlaceholder } from '../components/PhotoSlotPlaceholder';
+import { Link } from 'react-router-dom';
+import { Download, Phone, Send, FileText, Disc3, Video } from 'lucide-react';
+import { CONTACT_INFO, PACKAGES_DATA } from '../data/content';
 import { useTheme } from '../context/ThemeContext';
 import { usePageMeta } from '../utils/usePageMeta';
+
+// Промо-пакет пока не размещён (нет реальной ссылки на Яндекс.Диск) — блок скрыт, а не «скоро здесь будет».
+const PROMO_PACK_URL: string | null = null;
 
 export const AgenciesPage: React.FC = () => {
   const { isDark } = useTheme();
 
   usePageMeta(
-    'Для event-агентств | Кавер-группа NAKAMA — партнёрство',
+    'Event-агентствам | Кавер-группа NAKAMA — условия, райдер, материалы',
     'Кавер-группа NAKAMA для event-агентств: открытые цены от 92 000 ₽, свой звукорежиссёр, технический райдер и промо-материалы для КП. Ответ по датам — в течение нескольких часов.'
   );
 
-  const handleDownloadFile = (fileName: string, title: string) => {
-    const textContent = `ДОКУМЕНТ: ${title}\nКАВЕР-ГРУППА NAKAMA (10 ЧЕЛОВЕК)\n\n` +
-      `Контакты для организаторов:\nМенеджер Анна: ${CONTACT_INFO.phone}\nTelegram: ${CONTACT_INFO.telegram}\n\n` +
-      `1. СОСТАВ: 10 человек на сцене (6 вокалистов, гитары, бас, клавиши, ударные) + звукорежиссёр.\n` +
-      `2. ТЕХНИЧЕСКИЙ РАЙДЕР: In-Ear мониторинг, мультикор / цифровой стейджбокс, микрофонный парк вокального ансамбля.\n` +
-      `3. БЫТОВОЙ РАЙДЕР: Отдельная тёплая гримёрная комната с зеркалом и водой, трансфер и питание.\n` +
-      `4. ТАЙМИНГ: Саундчек за 2 часа до сбора гостей.\n\n` +
-      `Полная версия документа передаётся при согласовании договора.`;
-
-    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <div className="min-h-screen font-grotesk pt-28 sm:pt-32 pb-20 sm:pb-24 relative overflow-hidden bg-page-base">
-      {/* Background ambient lighting */}
-      <div className="absolute top-24 left-1/2 -translate-x-1/2 w-[750px] h-[360px] bg-[#8CA069]/15 blur-[140px] pointer-events-none rounded-full" />
-      <div className="absolute top-96 right-1/4 w-[400px] h-[400px] bg-[#A66CD9]/15 blur-[140px] pointer-events-none rounded-full" />
+      {/* Background ambient lighting — приглушено, страница строже клиентских */}
+      <div className="absolute top-24 left-1/2 -translate-x-1/2 w-[750px] h-[360px] bg-[#8CA069]/10 blur-[140px] pointer-events-none rounded-full" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-24 relative z-10">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-20 relative z-10">
+        {/* =========================================================================
+            HERO
+           ========================================================================= */}
         <div
           className={`glass-card-frosted rounded-[36px] p-7 sm:p-12 lg:p-14 shadow-2xl space-y-5 border ${
             isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#141218]'
@@ -51,408 +34,362 @@ export const AgenciesPage: React.FC = () => {
             B2B сотрудничество
           </span>
 
-          <div className="space-y-2">
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
-              Для event-агентств и организаторов
-            </h1>
-            <p className="font-handwriting text-2xl sm:text-3xl text-[#8CA069] dark:text-[#A6BE7E] -rotate-1 select-none">
-              «чёткий тайминг и прозрачные партнёрские условия»
-            </p>
-          </div>
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
+            Кавер-группа NAKAMA — event-агентствам и организаторам
+          </h1>
 
           <p
             className={`text-sm sm:text-base max-w-2xl leading-relaxed font-sans font-light ${
               isDark ? 'text-neutral-300' : 'text-[#4A4552]'
             }`}
           >
-            Надёжный музыкальный хедлайнер для ваших событий. Понятный райдер, свой звукорежиссёр, уважение к таймингу и прозрачные партнёрские условия.
+            Понимаем, как устроена ваша работа: у вас клиент, дедлайн и репутация, и подрядчик не должен добавлять рисков. На этой странице — условия, материалы, райдер и всё, что нужно, чтобы поставить нас в смету уже сегодня.
           </p>
-        </div>
 
-        {/* Why work with us */}
-        <section className="space-y-8">
-          <div
-            className={`border-b pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2 ${
-              isDark ? 'border-white/15' : 'border-black/15'
+          <Link
+            to="/contacts"
+            className={`inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-display font-black text-xs uppercase tracking-wider transition-all shadow-xl ${
+              isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-[#141218] text-white hover:bg-black'
             }`}
           >
-            <div>
-              <span className="badge-olive text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block mb-2">
-                / ПРЕИМУЩЕСТВА
-              </span>
-              <h2
-                className={`font-serif text-2xl sm:text-3xl font-normal tracking-tight ${
-                  isDark ? 'text-white' : 'text-[#141218]'
-                }`}
-              >
-                Почему с нами удобно работать
-              </h2>
-            </div>
+            Проверить дату
+          </Link>
+        </div>
+
+        {/* =========================================================================
+            ЧТО МЫ БЕРЁМ НА СЕБЯ
+           ========================================================================= */}
+        <section className="space-y-8">
+          <div className={`border-b pb-4 ${isDark ? 'border-white/15' : 'border-black/15'}`}>
+            <span className="badge-olive text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block mb-2">
+              / ПРЕИМУЩЕСТВА
+            </span>
+            <h2 className={`font-serif text-2xl sm:text-3xl font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+              Что мы берём на себя
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div
-              className={`p-7 rounded-[32px] glass-card-frosted glass-card-hover space-y-4 shadow-xl border transition-all ${
-                isDark ? 'border-white/20 hover:border-[#8CA069]/50' : 'border-black/10 bg-white/90 hover:border-[#8CA069]/60'
-              }`}
-            >
-              <h3
-                className={`font-serif text-xl font-normal tracking-tight ${
-                  isDark ? 'text-white' : 'text-[#141218]'
-                }`}
-              >
-                Понятный райдер
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className={`p-7 rounded-[28px] border space-y-3 ${isDark ? 'border-white/15' : 'border-black/10 bg-white/90'}`}>
+              <h3 className={`font-serif text-lg font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                1. Один контакт на весь проект
               </h3>
-              <p
-                className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
-                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                }`}
-              >
-                Чёткие технический и бытовой райдеры без завышенных требований. Адаптируемся к площадке.
+              <p className={`text-xs sm:text-sm leading-relaxed font-sans font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                С момента запроса до отчётных документов вы общаетесь с одним человеком, который в курсе всех договорённостей. Никаких «уточню у ребят и пропаду».
               </p>
             </div>
-
-            <div
-              className={`p-7 rounded-[32px] glass-card-frosted glass-card-hover space-y-4 shadow-xl border transition-all ${
-                isDark ? 'border-white/20 hover:border-[#A66CD9]/50' : 'border-black/10 bg-white/90 hover:border-[#A66CD9]/60'
-              }`}
-            >
-              <h3
-                className={`font-serif text-xl font-normal tracking-tight ${
-                  isDark ? 'text-white' : 'text-[#141218]'
-                }`}
-              >
-                Свой звукорежиссёр
+            <div className={`p-7 rounded-[28px] border space-y-3 ${isDark ? 'border-white/15' : 'border-black/10 bg-white/90'}`}>
+              <h3 className={`font-serif text-lg font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                2. Свой звукорежиссёр и оборудование
               </h3>
-              <p
-                className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
-                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                }`}
-              >
-                Наш штатный специалист полностью отвечает за настройку тракта и баланс 6 вокалов в миксе.
+              <p className={`text-xs sm:text-sm leading-relaxed font-sans font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                Инструменты, микрофоны, пульт — привозим сами. Вам не нужно докупать позиции в смету. Что нужно от площадки — в райдере ниже.
               </p>
             </div>
-
-            <div
-              className={`p-7 rounded-[32px] glass-card-frosted glass-card-hover space-y-4 shadow-xl border transition-all ${
-                isDark ? 'border-white/20 hover:border-[#8CA069]/50' : 'border-black/10 bg-white/90 hover:border-[#8CA069]/60'
-              }`}
-            >
-              <h3
-                className={`font-serif text-xl font-normal tracking-tight ${
-                  isDark ? 'text-white' : 'text-[#141218]'
-                }`}
-              >
-                Чёткий тайминг
+            <div className={`p-7 rounded-[28px] border space-y-3 ${isDark ? 'border-white/15' : 'border-black/10 bg-white/90'}`}>
+              <h3 className={`font-serif text-lg font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                3. Исполняем ТЗ, а не «примерно так»
               </h3>
-              <p
-                className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
-                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                }`}
-              >
-                Приезжаем заранее на саундчек, не задерживаем программу ведущего, плавно встраиваемся в ход вечера.
+              <p className={`text-xs sm:text-sm leading-relaxed font-sans font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                Тайминг, репертуар, дресс-код, договорённости с ведущим — фиксируем на брифе и выполняем. Если формат площадки нам не подходит — скажем честно на старте, а не за день до события.
               </p>
             </div>
-
-            <div
-              className={`p-7 rounded-[32px] glass-card-frosted glass-card-hover space-y-4 shadow-xl border transition-all ${
-                isDark ? 'border-white/20 hover:border-[#A66CD9]/50' : 'border-black/10 bg-white/90 hover:border-[#A66CD9]/60'
-              }`}
-            >
-              <h3
-                className={`font-serif text-xl font-normal tracking-tight ${
-                  isDark ? 'text-white' : 'text-[#141218]'
-                }`}
-              >
-                Ноль сюрпризов
+            <div className={`p-7 rounded-[28px] border space-y-3 ${isDark ? 'border-white/15' : 'border-black/10 bg-white/90'}`}>
+              <h3 className={`font-serif text-lg font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                4. Приезжаем заранее
               </h3>
-              <p
-                className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${
-                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                }`}
-              >
-                Все треки, образы и акценты согласуются до начала мероприятия. Вы спокойны за финал.
+              <p className={`text-xs sm:text-sm leading-relaxed font-sans font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                Саундчек — до прихода гостей. Умеем перестраиваться, если программа вечера поплыла: для нас это штатная ситуация.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Downloadable Materials Grid */}
+        {/* =========================================================================
+            РАБОТАЕМ ОФИЦИАЛЬНО
+           ========================================================================= */}
+        <section className="space-y-6">
+          <div className={`border-b pb-4 ${isDark ? 'border-white/15' : 'border-black/15'}`}>
+            <span className="badge-violet text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block mb-2">
+              / ДОКУМЕНТЫ
+            </span>
+            <h2 className={`font-serif text-2xl sm:text-3xl font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+              Прозрачно и с документами
+            </h2>
+          </div>
+          <ul className={`space-y-2.5 text-sm sm:text-base font-sans ${isDark ? 'text-neutral-200' : 'text-[#2B2733]'}`}>
+            <li>— Работаем по договору и платим агентскую комиссию</li>
+            <li>— Предоставляем закрывающие документы</li>
+            <li>— Оплата официально на счёт</li>
+            <li>— Предоплата 20%, остаток — не позднее чем за 1 день до мероприятия</li>
+          </ul>
+        </section>
+
+        {/* =========================================================================
+            ФОРМАТЫ И ЦЕНЫ
+           ========================================================================= */}
+        <section className="space-y-6">
+          <div className={`border-b pb-4 ${isDark ? 'border-white/15' : 'border-black/15'}`}>
+            <span className="badge-olive text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block mb-2">
+              / ЦЕНЫ
+            </span>
+            <h2 className={`font-serif text-2xl sm:text-3xl font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+              Форматы и цены — без скрытых позиций
+            </h2>
+          </div>
+
+          <p className={`text-sm sm:text-base leading-relaxed font-sans font-light max-w-3xl ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+            Цены на сайте — реальные, для прямых клиентов и агентств одинаково открытые. Комиссию агентства обсуждаем индивидуально — напишите нам.
+          </p>
+
+          <div className={`rounded-[24px] border divide-y ${isDark ? 'border-white/15 divide-white/10' : 'border-black/10 divide-black/10 bg-white/90'}`}>
+            {PACKAGES_DATA.map((pkg) => (
+              <div key={pkg.id} className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                <span className={`font-serif text-base sm:text-lg font-normal shrink-0 ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                  «{pkg.title}» — {pkg.price}
+                </span>
+                <span className={`text-xs sm:text-sm font-sans ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                  · {pkg.duration}, полный состав 10 человек, свой звукорежиссёр{pkg.id === 'maximum' ? ', до 5 каверов под мероприятие, работа со сценарием' : ''}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <p className={`text-xs sm:text-sm leading-relaxed font-sans font-light max-w-3xl ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+            Дополнительно: песня-переделка под событие (текст, запись или живое исполнение) — детали на странице пакетов.
+            <br />
+            Выступление можно разбить на блоки под ваш тайминг — например, 2 выхода по 45 минут или 3 по 30. Согласуем с ведущим и сценарием вечера.
+          </p>
+
+          <Link
+            to="/packages"
+            className={`inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider underline underline-offset-4 ${
+              isDark ? 'text-[#D49D42] hover:text-white' : 'text-[#B88228] hover:text-[#141218]'
+            }`}
+          >
+            Подробнее о пакетах →
+          </Link>
+        </section>
+
+        {/* =========================================================================
+            МАТЕРИАЛЫ ДЛЯ РАБОТЫ
+           ========================================================================= */}
+        <section className="space-y-6">
+          <div className={`border-b pb-4 ${isDark ? 'border-white/15' : 'border-black/15'}`}>
+            <span className="badge-violet text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block mb-2">
+              / МАТЕРИАЛЫ
+            </span>
+            <h2 className={`font-serif text-2xl sm:text-3xl font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+              Всё для презентации клиенту — в одном месте
+            </h2>
+          </div>
+
+          <p className={`text-sm sm:text-base leading-relaxed font-sans font-light max-w-3xl ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+            Не тратьте время на сбор материалов по крупицам — мы уже всё подготовили:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a
+              href="/files/nakama-rider.pdf"
+              download
+              className={`p-5 rounded-2xl border flex items-center gap-4 transition-all ${
+                isDark ? 'border-white/15 hover:bg-white/5' : 'border-black/10 bg-white/90 hover:bg-black/[0.02]'
+              }`}
+            >
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${isDark ? 'bg-[#D49D42]/15 text-[#D49D42]' : 'bg-[#B88228]/15 text-[#B88228]'}`}>
+                <FileText className="w-5 h-5" />
+              </div>
+              <div>
+                <div className={`font-display text-sm font-black uppercase tracking-wide ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                  Скачать райдер (PDF)
+                </div>
+                <p className={`text-xs font-sans ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                  Требования к площадке и звуку
+                </p>
+              </div>
+              <Download className={`w-4 h-4 ml-auto shrink-0 ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`} />
+            </a>
+
+            {PROMO_PACK_URL && (
+              <a
+                href={PROMO_PACK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`p-5 rounded-2xl border flex items-center gap-4 transition-all ${
+                  isDark ? 'border-white/15 hover:bg-white/5' : 'border-black/10 bg-white/90 hover:bg-black/[0.02]'
+                }`}
+              >
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${isDark ? 'bg-[#A66CD9]/15 text-[#A66CD9]' : 'bg-[#A66CD9]/15 text-[#6E389B]'}`}>
+                  <Download className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className={`font-display text-sm font-black uppercase tracking-wide ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                    Скачать промо-материалы
+                  </div>
+                  <p className={`text-xs font-sans ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                    Фото, логотип, описание группы для КП
+                  </p>
+                </div>
+              </a>
+            )}
+
+            <Link
+              to="/repertoire"
+              className={`p-5 rounded-2xl border flex items-center gap-4 transition-all ${
+                isDark ? 'border-white/15 hover:bg-white/5' : 'border-black/10 bg-white/90 hover:bg-black/[0.02]'
+              }`}
+            >
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${isDark ? 'bg-[#8CA069]/15 text-[#8CA069]' : 'bg-[#8CA069]/15 text-[#56643E]'}`}>
+                <Disc3 className="w-5 h-5" />
+              </div>
+              <div>
+                <div className={`font-display text-sm font-black uppercase tracking-wide ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                  Репертуар со сниппетами
+                </div>
+                <p className={`text-xs font-sans ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                  Покажите клиенту, как мы звучим
+                </p>
+              </div>
+            </Link>
+
+            <Link
+              to="/video"
+              className={`p-5 rounded-2xl border flex items-center gap-4 transition-all ${
+                isDark ? 'border-white/15 hover:bg-white/5' : 'border-black/10 bg-white/90 hover:bg-black/[0.02]'
+              }`}
+            >
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${isDark ? 'bg-[#D49D42]/15 text-[#D49D42]' : 'bg-[#B88228]/15 text-[#B88228]'}`}>
+                <Video className="w-5 h-5" />
+              </div>
+              <div>
+                <div className={`font-display text-sm font-black uppercase tracking-wide ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                  Видео живых выступлений
+                </div>
+                <p className={`text-xs font-sans ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                  Как это выглядит на площадке
+                </p>
+              </div>
+            </Link>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            КАК МЫ РАБОТАЕМ (вертикальный процесс)
+           ========================================================================= */}
+        <section className="space-y-8">
+          <div className={`border-b pb-4 ${isDark ? 'border-white/15' : 'border-black/15'}`}>
+            <span className="badge-olive text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block mb-2">
+              / ПРОЦЕСС
+            </span>
+            <h2 className={`font-serif text-2xl sm:text-3xl font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+              От запроса до выступления
+            </h2>
+          </div>
+
+          <div className={`space-y-0 border-l-2 pl-6 sm:pl-8 ${isDark ? 'border-white/15' : 'border-black/15'}`}>
+            {[
+              'Оставляете заявку на сайте',
+              'В течение нескольких часов отвечаем по дате и смете',
+              'Обсуждаем сценарий, репертуар и другие важные детали, присылаем дополнительные материалы для клиента (при необходимости)',
+              'День Х — приезжаем заранее, проводим саундчек до прихода гостей и отыгрываем, как в последний раз',
+            ].map((step, idx) => (
+              <div key={idx} className="relative pb-8 last:pb-0">
+                <div
+                  className={`absolute -left-[31px] sm:-left-[41px] w-6 h-6 rounded-full flex items-center justify-center font-mono text-[10px] font-bold ${
+                    isDark ? 'bg-[#D49D42] text-black' : 'bg-[#B88228] text-white'
+                  }`}
+                >
+                  {idx + 1}
+                </div>
+                <p className={`text-sm sm:text-base font-sans leading-relaxed ${isDark ? 'text-neutral-200' : 'text-[#2B2733]'}`}>
+                  {step}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* =========================================================================
+            ФИНАЛЬНЫЙ CTA
+           ========================================================================= */}
         <section
-          className={`p-8 sm:p-12 rounded-[36px] glass-card-frosted shadow-2xl space-y-10 border ${
+          className={`p-8 sm:p-12 rounded-[36px] glass-card-frosted shadow-2xl space-y-8 border ${
             isDark ? 'border-white/20' : 'border-black/10 bg-white/80'
           }`}
         >
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="badge-violet text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block">
-              ДОКУМЕНТЫ И ПРОМО-МАТЕРИАЛЫ
-            </span>
-            <h2
-              className={`font-serif text-3xl sm:text-4xl font-normal tracking-tight ${
-                isDark ? 'text-white' : 'text-[#141218]'
-              }`}
-            >
-              Материалы для скачивания
+            <h2 className={`font-serif text-2xl sm:text-4xl font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+              Проверьте нас на ближайшем событии
             </h2>
-            <p
-              className={`text-xs sm:text-sm font-sans font-light ${
-                isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-              }`}
-            >
-              Всё необходимое для составления сметы, согласования с площадкой и презентации клиенту
+            <p className={`text-sm sm:text-base font-sans font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+              Пришлите дату и город — ответим по занятости и условиям в течение нескольких часов.
             </p>
+            <div className="pt-2">
+              <Link
+                to="/contacts"
+                className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-display font-black text-xs uppercase tracking-wider transition-all shadow-xl ${
+                  isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-[#141218] text-white hover:bg-black'
+                }`}
+              >
+                Запросить условия и даты
+              </Link>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Tech Rider */}
-            <div
-              className={`p-6 rounded-[28px] glass-card-frosted flex flex-col justify-between space-y-6 border ${
-                isDark ? 'border-white/15' : 'border-black/10 bg-white/90'
-              }`}
-            >
-              <div className="space-y-2">
-                <span className="badge-olive text-[9px] font-mono uppercase px-2 py-0.5 rounded-full font-bold">PDF</span>
-                <h3
-                  className={`font-serif text-lg font-normal tracking-tight ${
-                    isDark ? 'text-white' : 'text-[#141218]'
-                  }`}
-                >
-                  Технический райдер
-                </h3>
-                <p
-                  className={`text-xs font-sans font-light ${
-                    isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                  }`}
-                >
-                  Спецификация по звуку, стейдж-план, коммутация и микрофонный парк.
-                </p>
+          {/* Прямые контакты под формой */}
+          <div
+            className={`p-6 sm:p-7 rounded-[28px] border max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-5 ${
+              isDark ? 'border-white/15 bg-white/[0.03]' : 'border-black/10 bg-white'
+            }`}
+          >
+            <div className="text-center sm:text-left">
+              <div className={`font-display text-sm font-black uppercase tracking-wide ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                Менеджер {CONTACT_INFO.managerName}
               </div>
-              <button
-                type="button"
-                onClick={() => handleDownloadFile('NAKAMA_Tech_Rider.txt', 'Технический райдер')}
-                className={`w-full py-2.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer border ${
-                  isDark
-                    ? 'bg-white/10 hover:bg-white/20 text-white border-white/20'
-                    : 'bg-black/5 hover:bg-black/10 text-[#141218] border-black/15'
-                }`}
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Скачать PDF</span>
-              </button>
+              <div className={`text-xs font-mono ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                {CONTACT_INFO.phone} / MAX
+              </div>
             </div>
-
-            {/* Hospitality Rider */}
-            <div
-              className={`p-6 rounded-[28px] glass-card-frosted flex flex-col justify-between space-y-6 border ${
-                isDark ? 'border-white/15' : 'border-black/10 bg-white/90'
-              }`}
-            >
-              <div className="space-y-2">
-                <span className="badge-olive text-[9px] font-mono uppercase px-2 py-0.5 rounded-full font-bold">PDF</span>
-                <h3
-                  className={`font-serif text-lg font-normal tracking-tight ${
-                    isDark ? 'text-white' : 'text-[#141218]'
-                  }`}
-                >
-                  Бытовой райдер
-                </h3>
-                <p
-                  className={`text-xs font-sans font-light ${
-                    isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                  }`}
-                >
-                  Требования к гримёрной комнате, питанию и логистике на выезде.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => handleDownloadFile('NAKAMA_Hospitality_Rider.txt', 'Бытовой райдер')}
-                className={`w-full py-2.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer border ${
-                  isDark
-                    ? 'bg-white/10 hover:bg-white/20 text-white border-white/20'
-                    : 'bg-black/5 hover:bg-black/10 text-[#141218] border-black/15'
+            <div className="flex items-center gap-3">
+              <a
+                href={`tel:${CONTACT_INFO.phoneClean}`}
+                className="w-11 h-11 rounded-full bg-[#8CA069] text-white flex items-center justify-center hover:bg-[#7B8F59] transition-all shadow-lg"
+                aria-label="Позвонить"
+              >
+                <Phone className="w-4 h-4" />
+              </a>
+              <a
+                href={CONTACT_INFO.telegram}
+                target="_blank"
+                rel="noreferrer"
+                className={`w-11 h-11 rounded-full flex items-center justify-center transition-all border ${
+                  isDark ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white' : 'bg-black/5 hover:bg-black/10 border-black/15 text-[#141218]'
                 }`}
+                aria-label="Написать в Telegram"
               >
-                <Download className="w-3.5 h-3.5" />
-                <span>Скачать PDF</span>
-              </button>
-            </div>
-
-            {/* Media Pack */}
-            <div
-              className={`p-6 rounded-[28px] glass-card-frosted flex flex-col justify-between space-y-6 border ${
-                isDark ? 'border-white/15' : 'border-black/10 bg-white/90'
-              }`}
-            >
-              <div className="space-y-2">
-                <span className="badge-violet text-[9px] font-mono uppercase px-2 py-0.5 rounded-full font-bold">ZIP</span>
-                <h3
-                  className={`font-serif text-lg font-normal tracking-tight ${
-                    isDark ? 'text-white' : 'text-[#141218]'
-                  }`}
-                >
-                  Медиапапка
-                </h3>
-                <p
-                  className={`text-xs font-sans font-light ${
-                    isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                  }`}
-                >
-                  Фото в высоком разрешении, логотипы, промо-ролики для афиш и соцсетей.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => handleDownloadFile('NAKAMA_Media_Kit.txt', 'Медиапапка')}
-                className={`w-full py-2.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer border ${
-                  isDark
-                    ? 'bg-white/10 hover:bg-white/20 text-white border-white/20'
-                    : 'bg-black/5 hover:bg-black/10 text-[#141218] border-black/15'
-                }`}
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Скачать ZIP</span>
-              </button>
-            </div>
-
-            {/* Price list */}
-            <div
-              className={`p-6 rounded-[28px] glass-card-frosted flex flex-col justify-between space-y-6 border ${
-                isDark ? 'border-white/15' : 'border-black/10 bg-white/90'
-              }`}
-            >
-              <div className="space-y-2">
-                <span className="badge-olive text-[9px] font-mono uppercase px-2 py-0.5 rounded-full font-bold">PRICES</span>
-                <h3
-                  className={`font-serif text-lg font-normal tracking-tight ${
-                    isDark ? 'text-white' : 'text-[#141218]'
-                  }`}
-                >
-                  Прайс-лист
-                </h3>
-                <p
-                  className={`text-xs font-sans font-light ${
-                    isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                  }`}
-                >
-                  Форматы «Базовый минимум» 92 000 ₽ и «Роскошный максимум» 109 000 ₽.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => handleDownloadFile('NAKAMA_Price_List.txt', 'Прайс-лист')}
-                className="w-full py-2.5 rounded-full text-xs font-display font-black uppercase tracking-wider bg-[#8CA069] text-white hover:bg-[#7B8F59] transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5 text-white" />
-                <span>Скачать прайс</span>
-              </button>
+                <Send className="w-4 h-4 text-[#A66CD9]" />
+              </a>
             </div>
           </div>
         </section>
 
-        {/* Visual Backstage & Rider Coordination Slot */}
-        <section
-          className={`glass-card-frosted rounded-[36px] p-7 sm:p-12 lg:p-14 shadow-2xl relative overflow-hidden border ${
-            isDark ? 'border-white/20' : 'border-black/10'
-          }`}
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-6 space-y-5">
-              <span className="badge-olive text-xs font-mono uppercase tracking-wider px-3.5 py-1.5 rounded-full font-bold inline-block">
-                Комфорт организатора
-              </span>
-              <h2
-                className={`font-serif text-2xl sm:text-4xl font-normal leading-tight ${
-                  isDark ? 'text-white' : 'text-[#141218]'
-                }`}
-              >
-                Спокойствие координатора в день события
-              </h2>
-              <p
-                className={`text-xs sm:text-sm font-sans leading-relaxed font-light ${
-                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                }`}
-              >
-                Мы знаем цену спокойствия организатора в день праздника. Музыканты приезжают строго по графику, не спорят с банкетной службой, а наш звукорежиссёр берёт всю техническую суету по звуку и коммутации на себя.
-              </p>
-              <div
-                className={`flex flex-wrap gap-4 text-xs font-mono pt-1 ${
-                  isDark ? 'text-neutral-400' : 'text-[#686370]'
-                }`}
-              >
-                <span>саундчек до гостей</span>
-                <span>•</span>
-                <span>без задержек программы</span>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6">
-              <PhotoSlotPlaceholder
-                slot={PHOTO_SLOTS_MAP.agenciesRider}
-                allowPreviewToggle={true}
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Manager Card */}
-        <section
-          className={`p-8 sm:p-10 rounded-[36px] glass-card-frosted max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-8 shadow-2xl border paper-texture director-tape ${
-            isDark ? 'border-white/20' : 'border-black/10'
-          }`}
-        >
-          <div className="space-y-2 text-center sm:text-left">
-            <span className="badge-violet text-xs font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full inline-block">
-              ПРЯМАЯ B2B СВЯЗЬ
-            </span>
-            <h3
-              className={`font-serif text-2xl sm:text-3xl font-normal leading-snug ${
-                isDark ? 'text-white' : 'text-[#141218]'
-              }`}
-            >
-              Концертный менеджер: Анна
-            </h3>
-            <p
-              className={`text-xs sm:text-sm font-sans font-light ${
-                isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-              }`}
-            >
-              Согласование условий, бронирование дат, райдеры и официальные договоры
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-            <a
-              href={`tel:${CONTACT_INFO.phoneClean}`}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#8CA069] text-white font-display font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#7B8F59] transition-all shadow-lg"
-            >
-              <Phone className="w-4 h-4 text-white" />
-              <span>{CONTACT_INFO.phone}</span>
-            </a>
-            <a
-              href={CONTACT_INFO.telegram}
-              target="_blank"
-              rel="noreferrer"
-              className={`w-full sm:w-auto px-6 py-3.5 rounded-full font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border ${
-                isDark
-                  ? 'bg-white/10 text-white hover:bg-white/20 border-white/20'
-                  : 'bg-black/5 text-[#141218] hover:bg-black/10 border-black/15'
-              }`}
-            >
-              <Send className="w-4 h-4 text-[#A66CD9]" />
-              <span>Telegram</span>
-            </a>
-          </div>
-        </section>
-
-        {/* B2B CTA Form */}
-        <section>
-          <LeadForm
-            title="Обсудить сотрудничество с NAKAMA"
-            subtitle="Заполните короткую форму — менеджер Анна свяжется для обсуждения условий партнёрства."
-            defaultEventType="Корпоратив"
+        {/* Schema.org: Offer x2 — переиспользовано со страницы /packages */}
+        {PACKAGES_DATA.map((pkg) => (
+          <script
+            key={pkg.id}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Offer',
+                name: pkg.title,
+                price: String(pkg.priceNum),
+                priceCurrency: 'RUB',
+                description: `${pkg.duration} кавер-группы NAKAMA, полный состав, свой звукорежиссёр`,
+              }),
+            }}
           />
-        </section>
+        ))}
       </div>
     </div>
   );

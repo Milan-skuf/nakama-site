@@ -12,6 +12,7 @@ import {
 import { CONTACT_INFO, PACKAGES_DATA } from '../data/content';
 import { CONTENT_IMAGES } from '../content';
 import { useTheme } from '../context/ThemeContext';
+import { downloadPriceListPdf } from '../utils/generateAgencyDocs';
 
 interface EditorialTariffsGridProps {
   onSelectTariff?: (tariffTitle: string) => void;
@@ -26,6 +27,7 @@ export const EditorialTariffsGrid: React.FC<EditorialTariffsGridProps> = ({
   const [activeTab, setActiveTab] = useState<'all' | 'basic' | 'maximum'>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(PACKAGES_DATA[1]); // Default to Maximum (Hit)
+  const [isDownloadingPrice, setIsDownloadingPrice] = useState(false);
 
   const handleOpenDetails = (pkgIndex: number) => {
     setSelectedPackage(PACKAGES_DATA[pkgIndex]);
@@ -33,39 +35,6 @@ export const EditorialTariffsGrid: React.FC<EditorialTariffsGridProps> = ({
     if (onSelectTariff) {
       onSelectTariff(PACKAGES_DATA[pkgIndex].title);
     }
-  };
-
-  const handleDownloadFile = (fileName: string, title: string) => {
-    const textContent = `КАВЕР-ГРУППА NAKAMA • ОФИЦИАЛЬНЫЙ ПРАЙС-ЛИСТ И ТАРИФЫ
-Состав: 10 человек (6 вокалистов, барабаны, бас, гитары, клавиши)
-Штатный звукорежиссёр: Включён во все форматы
-Телефон: ${CONTACT_INFO.phone}
-Telegram: ${CONTACT_INFO.telegram}
-
-==================================================
-ТАРИФ 01: «БАЗОВЫЙ МИНИМУМ» — 92 000 ₽
-• 60 минут живого выступления (1 сет или разбивка на блоки)
-• 100+ готовых мировых и российских хитов
-• Штатный звукорежиссёр за пультом
-• Идеально: корпоративы, дни рождения, клубные вечеринки
-
-ТАРИФ 02: «РОСКОШНЫЙ МАКСИМУМ» — 109 000 ₽ (ХИТ СЕЗОНА)
-• 90 минут живого выступления (2 или 3 сета)
-• До 5 персональных каверов под ваш вечер
-• Интерактивы с залом и сценарий кульминаций
-• Персональный звуковой тракт и мониторинг
-• Идеально: свадьбы, масштабные корпоративы, статусные гала-вечера
-==================================================`;
-
-    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -139,7 +108,7 @@ Telegram: ${CONTACT_INFO.telegram}
             <div className="absolute inset-0 z-0">
               <img
                 src={CONTENT_IMAGES.dsc00649}
-                alt="Концерт NAKAMA — Тариф 01"
+                alt="Кавер-группа NAKAMA на корпоративе"
                 className={`w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ${
                   isDark
                     ? 'brightness-[0.38] contrast-125'
@@ -268,16 +237,14 @@ Telegram: ${CONTACT_INFO.telegram}
               {/* Action buttons inside Cell 1 */}
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <a
-                  href={CONTACT_INFO.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#booking-section"
                   className={`px-7 py-3.5 rounded-full font-display font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer inline-flex items-center gap-2 whitespace-nowrap ${
                     isDark
                       ? 'bg-white text-black hover:bg-neutral-200'
                       : 'bg-[#141218] text-white hover:bg-black'
                   }`}
                 >
-                  <span>Забронировать 92 000 ₽</span>
+                  <span>Забронировать дату</span>
                 </a>
 
                 <button
@@ -448,15 +415,24 @@ Telegram: ${CONTACT_INFO.telegram}
 
               <button
                 type="button"
-                onClick={() => handleDownloadFile('NAKAMA_Price_List.txt', 'Прайс-лист')}
-                className={`w-full py-2.5 rounded-full border text-[10px] font-mono uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                disabled={isDownloadingPrice}
+                onClick={async () => {
+                  if (isDownloadingPrice) return;
+                  setIsDownloadingPrice(true);
+                  try {
+                    await downloadPriceListPdf();
+                  } finally {
+                    setIsDownloadingPrice(false);
+                  }
+                }}
+                className={`w-full py-2.5 rounded-full border text-[10px] font-mono uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-60 disabled:cursor-wait ${
                   isDark
                     ? 'border-white/20 bg-white/5 hover:bg-white/15 text-white hover:border-[#A66CD9]/40'
                     : 'border-black/15 bg-white hover:bg-neutral-100 text-[#141218] shadow-sm hover:border-[#6E389B]/40'
                 }`}
               >
                 <Download className={`w-3 h-3 ${isDark ? 'text-[#A66CD9]' : 'text-[#6E389B]'}`} />
-                <span>СКАЧАТЬ ПРАЙС (.TXT)</span>
+                <span>{isDownloadingPrice ? 'ГОТОВИМ PDF…' : 'СКАЧАТЬ ПРАЙС (.PDF)'}</span>
               </button>
             </div>
           </div>
@@ -754,7 +730,7 @@ Telegram: ${CONTACT_INFO.telegram}
           <div className="absolute inset-0 z-0">
             <img
               src={CONTENT_IMAGES.dsc00684}
-              alt="Концерт NAKAMA — Тариф Роскошный максимум"
+              alt="Кавер-группа NAKAMA на свадьбе"
               className={`w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ${
                 isDark
                   ? 'brightness-[0.4] contrast-125'
@@ -859,16 +835,14 @@ Telegram: ${CONTACT_INFO.telegram}
               {/* Action buttons inside Row 3 - positioned on the right, aligned with text */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 shrink-0 pb-1 w-full sm:w-auto">
                 <a
-                  href={CONTACT_INFO.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#booking-section"
                   className={`w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 rounded-full font-display font-black text-[11px] sm:text-xs uppercase tracking-wider transition-all shadow-2xl hover:scale-105 active:scale-95 cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap ${
                     isDark
                       ? 'bg-gradient-to-r from-[#A66CD9] to-[#8CA069] text-black font-bold hover:brightness-110'
                       : 'btn-tariff-vip-light'
                   }`}
                 >
-                  <span>Забронировать 109 000 ₽</span>
+                  <span>Забронировать дату</span>
                 </a>
 
                 <button
@@ -1016,10 +990,10 @@ Telegram: ${CONTACT_INFO.telegram}
                   Репертуарная программа
                 </td>
                 <td className={`p-4 sm:p-5 border-l ${isDark ? 'border-white/10' : 'border-black/10'}`}>
-                  Выбор из 100+ готовых мировых и РФ хитов
+                  Выбор из готового репертуара мировых и РФ хитов
                 </td>
                 <td className={`p-4 sm:p-5 border-l font-medium ${isDark ? 'border-white/10 bg-[#D49D42]/5 text-white' : 'border-black/10 bg-[#B88228]/5 text-[#141218]'}`}>
-                  100+ хитов + <span className={isDark ? 'text-[#D49D42]' : 'text-[#B88228]'}>до 5 каверов под заказ</span>
+                  Готовый репертуар + <span className={isDark ? 'text-[#D49D42]' : 'text-[#B88228]'}>до 5 каверов под заказ</span>
                 </td>
               </tr>
               <tr className={isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.02]'}>
@@ -1031,6 +1005,28 @@ Telegram: ${CONTACT_INFO.telegram}
                 </td>
                 <td className={`p-4 sm:p-5 border-l font-medium ${isDark ? 'border-white/10 bg-[#D49D42]/5 text-[#D49D42]' : 'border-black/10 bg-[#B88228]/5 text-[#B88228]'}`}>
                   Включено до 5 треков
+                </td>
+              </tr>
+              <tr className={isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.02]'}>
+                <td className={`p-4 sm:p-5 font-mono text-[11px] ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                  Смена сценических образов
+                </td>
+                <td className={`p-4 sm:p-5 border-l ${isDark ? 'border-white/10 text-neutral-400' : 'border-black/10 text-[#686370]'}`}>
+                  Единый образ на весь вечер
+                </td>
+                <td className={`p-4 sm:p-5 border-l font-medium ${isDark ? 'border-white/10 bg-[#D49D42]/5 text-[#D49D42]' : 'border-black/10 bg-[#B88228]/5 text-[#B88228]'}`}>
+                  Включена смена образов по ходу вечера
+                </td>
+              </tr>
+              <tr className={isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.02]'}>
+                <td className={`p-4 sm:p-5 font-mono text-[11px] ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                  Встреча гостей живой музыкой
+                </td>
+                <td className={`p-4 sm:p-5 border-l ${isDark ? 'border-white/10 text-neutral-400' : 'border-black/10 text-[#686370]'}`}>
+                  По доп. согласованию
+                </td>
+                <td className={`p-4 sm:p-5 border-l font-medium ${isDark ? 'border-white/10 bg-[#D49D42]/5 text-[#D49D42]' : 'border-black/10 bg-[#B88228]/5 text-[#B88228]'}`}>
+                  Включено 30 минут инструментальной музыки
                 </td>
               </tr>
               <tr className={isDark ? 'hover:bg-white/[0.02]' : 'hover:bg-black/[0.02]'}>
@@ -1216,17 +1212,20 @@ Telegram: ${CONTACT_INFO.telegram}
                 Забронировать в Telegram
               </a>
 
-              <Link
-                to="/contacts"
-                onClick={() => setIsModalOpen(false)}
+              <a
+                href={`${CONTACT_INFO.telegram}?text=${encodeURIComponent(
+                  `Здравствуйте! Есть вопрос по тарифу «${selectedPackage.title}» (${selectedPackage.price}).`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`px-6 py-3.5 text-center text-xs font-mono font-bold tracking-wider rounded-full border transition-all ${
                   isDark
                     ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white'
                     : 'bg-neutral-100 hover:bg-neutral-200 border-black/15 text-[#141218]'
                 }`}
               >
-                Контакты
-              </Link>
+                Задать вопрос
+              </a>
 
               <button
                 type="button"

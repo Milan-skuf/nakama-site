@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, ArrowLeft } from 'lucide-react';
-import { CONTACT_INFO } from '../data/content';
 import { useTheme } from '../context/ThemeContext';
 import { usePageMeta } from '../utils/usePageMeta';
 
@@ -48,7 +47,7 @@ export const ConsentPage: React.FC = () => {
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>152-ФЗ • ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</span>
+              <span>152-ФЗ • СОГЛАСИЕ НА ОБРАБОТКУ ПД</span>
             </span>
           </div>
 
@@ -57,67 +56,63 @@ export const ConsentPage: React.FC = () => {
           </h1>
 
           <div
-            className={`space-y-6 text-xs sm:text-sm font-sans leading-relaxed font-light ${
+            className={`space-y-5 text-xs sm:text-sm font-sans leading-relaxed font-light ${
               isDark ? 'text-neutral-300' : 'text-[#3E3A45]'
             }`}
           >
             <p>
-              Настоящим, оставляя свои персональные данные в любой из форм обратной связи на сайте кавер-группы NAKAMA, вы подтверждаете своё согласие на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ «О персональных данных».
+              Отмечая чекбокс «Даю согласие на обработку персональных данных» и нажимая кнопку отправки формы на сайте nakama.ru, я, действуя свободно, своей волей и в своём интересе, даю согласие Индивидуальному предпринимателю Дмитриенко Анне Дмитриевне (ОГРНИП 326420500043734, ИНН 421502347202) на обработку моих персональных данных.
             </p>
 
-            <div className="space-y-2">
-              <h2 className={`font-mono text-sm font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                1. Оператор персональных данных
+            <div className="space-y-1.5">
+              <h2 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                Перечень данных
+              </h2>
+              <p>Имя; номер телефона; ник в мессенджере; адрес электронной почты; сведения о мероприятии, указанные мной в форме.</p>
+            </div>
+
+            <div className="space-y-1.5">
+              <h2 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                Цели обработки
+              </h2>
+              <p>Связь со мной по оставленной заявке; подготовка договора на оказание услуг; отправка запрошенных мной материалов.</p>
+            </div>
+
+            <div className="space-y-1.5">
+              <h2 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                Перечень действий
+              </h2>
+              <p>Сбор, запись, систематизация, накопление, хранение, уточнение, использование, удаление — с использованием средств автоматизации и без них.</p>
+            </div>
+
+            <div className="space-y-1.5">
+              <h2 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                Срок действия
+              </h2>
+              <p>До достижения целей обработки или до отзыва согласия.</p>
+            </div>
+
+            <div className="space-y-1.5">
+              <h2 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+                Порядок отзыва
               </h2>
               <p>
-                Обработку персональных данных осуществляет Индивидуальный предприниматель Дмитриенко Анна Дмитриевна (ОГРНИП 326420500043734, ИНН 421502347202). Контакты: телефон {CONTACT_INFO.phone}, Telegram: {CONTACT_INFO.telegram}, e-mail: robiland@mail.ru.
+                Согласие может быть отозвано в любой момент путём направления письма на robiland@mail.ru. Данные будут удалены в течение 30 дней с момента получения отзыва.
               </p>
             </div>
 
-            <div className="space-y-2">
-              <h2 className={`font-mono text-sm font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                2. Цели обработки персональных данных
-              </h2>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Обработка входящих запросов на бронирование даты живого выступления коллектива NAKAMA;</li>
-                <li>Консультирование по стоимости, тарифам, райдерам и репертуару;</li>
-                <li>Согласование деталей тайминга, сценария и треклиста мероприятия;</li>
-                <li>Заключение официального договора оказания музыкальных и концертных услуг;</li>
-                <li>Оперативная коммуникация по телефону и в мессенджерах (Telegram, WhatsApp).</li>
-              </ul>
-            </div>
-
-            <div className="space-y-2">
-              <h2 className={`font-mono text-sm font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                3. Перечень обрабатываемых данных
-              </h2>
-              <p>
-                Оператор обрабатывает следующие категории данных: имя заказчика или представителя агентства, контактный номер телефона, логин / номер в мессенджерах, город и дата планируемого мероприятия, формат события, список выбранных из репертуара композиций и комментарии к заявке.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h2 className={`font-mono text-sm font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                4. Условия и конфиденциальность
-              </h2>
-              <p>
-                Оператор гарантирует, что полученные персональные данные не передаются третьим лицам, за исключением случаев, прямо предусмотренных действующим законодательством РФ либо необходимых для исполнения договора (например, оформление пропусков на концертную площадку или билетов для трансфера).
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h2 className={`font-mono text-sm font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#141218]'}`}>
-                5. Срок действия согласия и порядок отзыва
-              </h2>
-              <p>
-                Согласие действует с момента отправки формы до момента достижения целей обработки или до отзыва согласия. Отозвать согласие можно в любой момент, направив письменное уведомление в Telegram {CONTACT_INFO.telegram} или по телефону {CONTACT_INFO.phone}.
-              </p>
-            </div>
+            <p>
+              Подробнее о том, как мы обращаемся с данными, —{' '}
+              <Link to="/privacy" className={`underline font-semibold ${isDark ? 'text-[#D49D42]' : 'text-[#B88228]'}`}>
+                в Политике конфиденциальности
+              </Link>
+              .
+            </p>
           </div>
 
           <div className="pt-6 border-t border-white/15 flex flex-wrap gap-4 items-center justify-between">
             <span className="text-[11px] font-mono opacity-70">
-              Редакция от 2026 г. • Кавер-группа NAKAMA
+              Кавер-группа NAKAMA
             </span>
             <Link
               to="/privacy"

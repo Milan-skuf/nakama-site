@@ -1,5 +1,16 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/packages", "destination": "/index.html" },
+    { "source": "/repertoire", "destination": "/index.html" },
+    { "source": "/video", "destination": "/index.html" },
+    { "source": "/photo", "destination": "/index.html" },
+    { "source": "/cases", "destination": "/index.html" },
+    { "source": "/agencies", "destination": "/index.html" },
+    { "source": "/contacts", "destination": "/index.html" },
+    { "source": "/thanks", "destination": "/index.html" },
+    { "source": "/consent", "destination": "/index.html" },
+    { "source": "/privacy", "destination": "/index.html" }
   ]
 }

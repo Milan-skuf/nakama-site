@@ -20,6 +20,7 @@ import { TRACKS_DATA } from '../data/content';
 import { TrackItem } from '../types';
 import { CONTENT_IMAGES } from '../content';
 import { useTheme } from '../context/ThemeContext';
+import { downloadRepertoirePdf } from '../utils/generateRepertoirePdf';
 
 // Rotating collection of authentic NAKAMA band photos
 const PHOTO_SERIES = [
@@ -631,25 +632,16 @@ export const CoverFlowPlayer: React.FC<CoverFlowPlayerProps> = ({
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
-  const handleDownloadRepertoire = () => {
-    const textContent =
-      `РЕПЕРТУАР КАВЕР-ГРУППЫ NAKAMA (100+ ТРЕКОВ)\n\n` +
-      `10 человек на сцене, 6 вокалистов, 100% живой звук без плейбеков.\n` +
-      `Город: Новосибирск, выезд по всей России.\nМенеджер: 8-906-980-65-25 (Анна)\n\n` +
-      TRACKS_DATA.map(
-        (t, idx) => `${idx + 1}. ${t.title} — ${t.originalArtist} [${t.tag}]`
-      ).join('\n') +
-      `\n\n... и ещё более 90 треков в полном концертном каталоге.`;
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
-    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'NAKAMA_Repertoire_100_Tracks.txt';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const handleDownloadRepertoire = async () => {
+    if (isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
+    try {
+      await downloadRepertoirePdf(tracks);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   // Helper to compute 3D card layout properties relative to activeIndex
@@ -754,7 +746,7 @@ export const CoverFlowPlayer: React.FC<CoverFlowPlayerProps> = ({
            ========================================================================= */}
         <div className="w-full max-w-4xl mx-auto text-center space-y-2.5 px-4">
           <p className="text-[11px] font-mono uppercase tracking-[0.15em] opacity-70">
-            репертуар · 100+ треков · 100% живой звук
+            репертуар · {tracks.length}+ треков · 100% живой звук
           </p>
 
           <h2
@@ -1270,13 +1262,14 @@ export const CoverFlowPlayer: React.FC<CoverFlowPlayerProps> = ({
               </span>
               <button
                 type="button"
+                disabled={isGeneratingPdf}
                 onClick={handleDownloadRepertoire}
-                className={`text-[11px] font-mono hover:underline flex items-center gap-1 cursor-pointer ${
+                className={`text-[11px] font-mono hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-60 disabled:cursor-wait ${
                   isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
                 }`}
               >
                 <Download className="w-3 h-3" />
-                <span>СКАЧАТЬ (.TXT)</span>
+                <span>{isGeneratingPdf ? 'ГОТОВИМ PDF…' : 'СКАЧАТЬ (.PDF)'}</span>
               </button>
             </div>
 

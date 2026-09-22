@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { SafeImage } from '../components/SafeImage';
 import { LeadForm } from '../components/LeadForm';
 import { PhotoSlotPlaceholder } from '../components/PhotoSlotPlaceholder';
@@ -10,8 +11,8 @@ export const AboutPage: React.FC = () => {
   const { isDark } = useTheme();
 
   usePageMeta(
-    'О группе NAKAMA — Философия, состав и живой звук',
-    'Кавер-группа NAKAMA из Сибири: история, философия и состав — 10 артистов, 6 вокалистов, 100% живой звук. Работаем со сценарием вашего вечера.'
+    'О группе NAKAMA — кавер-группа из Сибири для Новосибирска и России',
+    'Кавер-группа NAKAMA из Сибири: история, философия и состав — 10 артистов, 6 вокалистов, 100% живой звук. Выступаем в Новосибирске и по всей России, работаем со сценарием вашего вечера.'
   );
 
   return (
@@ -39,6 +40,7 @@ export const AboutPage: React.FC = () => {
               <div className="space-y-2">
                 <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
                   NAKAMA
+                  <span className="sr-only"> — кавер-группа из Сибири для Новосибирска и всей России</span>
                 </h1>
                 <p className="font-handwriting text-2xl sm:text-3xl text-[#8CA069] dark:text-[#A6BE7E] -rotate-1 select-none">
                   10 человек на сцене. Живое многоголосное звучание.
@@ -50,7 +52,7 @@ export const AboutPage: React.FC = () => {
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Энергия, которая поднимет любой зал. Кавер-группа из Сибири с уникальным многоголосным звучанием.
+                Энергия, которая поднимет любой зал.
               </p>
 
               <p className="pt-2 text-[11px] font-mono uppercase tracking-[0.15em] opacity-70">
@@ -79,27 +81,36 @@ export const AboutPage: React.FC = () => {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-7 space-y-6 text-left">
-              <div
-                className={`inline-block p-4 rounded-3xl font-serif text-4xl shadow-xl border ${
-                  isDark
-                    ? 'bg-[#A66CD9]/15 border-[#A66CD9]/40 text-[#C59BEE]'
-                    : 'bg-[#A66CD9]/10 border-[#A66CD9]/30 text-[#6B2FA0]'
-                }`}
-              >
-                仲間
+              <div className="flex flex-wrap items-center gap-4">
+                <div
+                  className={`w-fit p-4 rounded-3xl font-serif text-4xl shadow-xl border ${
+                    isDark
+                      ? 'bg-[#A66CD9]/15 border-[#A66CD9]/40 text-[#C59BEE]'
+                      : 'bg-[#A66CD9]/10 border-[#A66CD9]/30 text-[#6B2FA0]'
+                  }`}
+                >
+                  仲間
+                </div>
+                <span className="badge-violet text-xs uppercase tracking-[0.25em] font-mono font-bold px-3 py-1 rounded-full w-fit block">
+                  / СМЫСЛ НАЗВАНИЯ
+                </span>
               </div>
-              <span className="badge-violet text-xs uppercase tracking-[0.25em] font-mono font-bold px-3 py-1 rounded-full inline-block">
-                / СМЫСЛ НАЗВАНИЯ
-              </span>
               <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal tracking-tight leading-tight">
-                Кто мы и почему NAKAMA
+                Кто мы
               </h2>
               <p
                 className={`text-sm sm:text-base leading-relaxed font-sans font-light ${
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                В основе бренда лежит японское понятие NAKAMA (仲間) — это соратник, единомышленник и «свой» человек, с которым связывают общие ценности и глубокое доверие. Это слово определяет отношение группы к каждому событию — не приглашенные артисты, а часть вашей истории. Мы создаем атмосферу, в которой каждый гость чувствует себя «своим».
+                В основе бренда лежит японское понятие NAKAMA (仲間) — это соратник, единомышленник и «свой» человек, с которым связывают общие ценности и глубокое доверие.
+              </p>
+              <p
+                className={`text-sm sm:text-base leading-relaxed font-sans font-light ${
+                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
+                }`}
+              >
+                Это слово определяет отношение группы к каждому событию — не приглашенные артисты, а часть вашей истории. Мы создаем атмосферу, в которой каждый гость почувствует себя «своим».
               </p>
             </div>
 
@@ -120,34 +131,60 @@ export const AboutPage: React.FC = () => {
             isDark ? 'border-white/10' : 'border-black/10'
           }`}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-            <div className="lg:col-span-6 order-2 lg:order-1">
-              <SafeImage
-                src={MEDIA_LINKS.lookbook2WhyNeeded}
-                alt="Эмоции и атмосфера на выступлении NAKAMA"
-                aspectRatio="landscape"
-                caption="Музыка, которая возвращает в момент «здесь и сейчас»"
-              />
-            </div>
+          <div className="max-w-3xl space-y-2 mb-10">
+            <span
+              className={`text-xs uppercase tracking-[0.25em] font-mono font-bold block ${
+                isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
+              }`}
+            >
+              / НАША МИССИЯ
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal tracking-tight leading-tight">
+              Когда вы в последний раз отдыхали?
+            </h2>
+          </div>
 
-            <div className="lg:col-span-6 order-1 lg:order-2 space-y-6">
-              <span
-                className={`text-xs uppercase tracking-[0.25em] font-mono font-bold block ${
-                  isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
-                }`}
-              >
-                / НАША МИССИЯ
-              </span>
-              <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal tracking-tight leading-tight">
-                Когда вы в последний раз отдыхали?
-              </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+            <div className="lg:col-span-6 space-y-6">
               <p
                 className={`text-sm sm:text-base leading-relaxed font-light font-sans ${
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Современный человек почти разучился это делать. Рабочий чат, незакрытые задачи, фоновая тревога — всё это преследует нас даже после окончания рабочего дня. И ваши гости — не исключение. Наша миссия — помогать людям по-настоящему отдыхать через живую музыку. Мы делаем так, чтобы гости переключались в режим «здесь и сейчас», чувствовали себя частью вечера и проживали его вместе.
+                Современный человек почти разучился это делать. Рабочий чат, незакрытые задачи, фоновая тревога — всё это преследует нас даже после окончания рабочего дня. И ваши гости — не исключение.
               </p>
+            </div>
+            <div className="lg:col-span-6">
+              <SafeImage
+                src={MEDIA_LINKS.lookbook2WhyNeeded}
+                alt="Эмоции и атмосфера на выступлении NAKAMA"
+                aspectRatio="landscape"
+              />
+            </div>
+
+            <div className="lg:col-span-6 lg:order-4 space-y-6">
+              <p
+                className={`text-sm sm:text-base leading-relaxed font-light font-sans ${
+                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
+                }`}
+              >
+                Наша миссия — помогать людям по-настоящему отдыхать через живую музыку. Мы делаем так, чтобы гости не просто присутствовали физически, а действительно переключались в режим «здесь и сейчас», чувствовали себя частью вечера и проживали его вместе.
+              </p>
+              <Link
+                to="/video"
+                className={`inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-display font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-105 active:scale-95 ${
+                  isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-[#141218] text-white hover:bg-black'
+                }`}
+              >
+                Смотреть видео
+              </Link>
+            </div>
+            <div className="lg:col-span-6 lg:order-3">
+              <SafeImage
+                src={MEDIA_LINKS.whyNeededSecond}
+                alt="Живые моменты и настроение группы NAKAMA"
+                aspectRatio="landscape"
+              />
             </div>
           </div>
         </section>
@@ -217,7 +254,7 @@ export const AboutPage: React.FC = () => {
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Никаких минусовок и записанных дорожек. Только живое исполнение — потому что именно оно рождает мурашки и настоящий отклик.
+                Никаких минусовок и записанных дорожек. Только живое исполнение — потому что именно оно рождает мурашки и настоящий отклик. Это не формат, это принципиальная позиция.
               </p>
             </div>
 
@@ -231,7 +268,7 @@ export const AboutPage: React.FC = () => {
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Мы не предлагаем «урезанную» версию себя. Если вы заказываете NAKAMA — на сцене будет 10 человек. Потому что именно в этом составе рождается то фирменное звучание.
+                Мы не предлагаем «урезанную» версию себя. Если вы заказываете NAKAMA — на сцене будет 10 человек. Потому что именно в этом составе рождается то звучание, ради которого мы существуем.
               </p>
             </div>
 
@@ -245,9 +282,49 @@ export const AboutPage: React.FC = () => {
                   isDark ? 'text-neutral-300' : 'text-[#4A4552]'
                 }`}
               >
-                Мы работаем не только для гостей, но и вместе с командой события. Слышим задачи организатора, соблюдаем тайминг и не создаём сюрпризов.
+                Мы работаем не только для гостей, но и вместе с командой события. Слышим задачи организатора, соблюдаем тайминг, не создаём сюрпризов. Наша цель — чтобы вы могли доверить нам музыкальную часть мероприятия и больше о ней не думать.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            4.5 ВИДЕО-БЛОК: BACKSTAGE И РЕПЕТИЦИИ
+           ========================================================================= */}
+        <section
+          className={`pt-16 sm:pt-24 space-y-6 border-t ${
+            isDark ? 'border-white/10' : 'border-black/10'
+          }`}
+        >
+          <div>
+            <span
+              className={`text-xs uppercase tracking-[0.25em] font-mono font-bold block mb-2 ${
+                isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
+              }`}
+            >
+              / ЗА КУЛИСАМИ
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal tracking-tight leading-tight">
+              Backstage, репетиции и живые моменты
+            </h2>
+            <p
+              className={`pt-3 text-sm sm:text-base leading-relaxed font-light font-sans max-w-2xl ${
+                isDark ? 'text-neutral-300' : 'text-[#4A4552]'
+              }`}
+            >
+              За сценой NAKAMA — те же живые люди, что и на сцене. Разбор партий, саундчек и настрой перед выходом к гостям.
+            </p>
+          </div>
+
+          <div className="w-full aspect-video rounded-3xl overflow-hidden bg-black relative shadow-2xl">
+            <video
+              src="/video/nakama-backstage.mp4"
+              controls
+              preload="metadata"
+              playsInline
+              poster={MEDIA_LINKS.lookbook3}
+              className="w-full h-full absolute inset-0"
+            />
           </div>
         </section>
 
@@ -288,31 +365,11 @@ export const AboutPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Schema.org Microdata for About Page */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'MusicGroup',
-              name: 'NAKAMA',
-              genre: ['Cover band', 'Pop', 'Rock', 'Live Music', 'Vocal Ensemble'],
-              description:
-                'Кавер-группа NAKAMA из Сибири: 10 человек на сцене (6 вокалистов, 4 музыканта), 100% живой звук, штатный звукорежиссёр. Выезд по всей России.',
-              address: {
-                '@type': 'PostalAddress',
-                addressLocality: 'Новокузнецк / Новосибирск',
-                addressCountry: 'RU',
-              },
-            }),
-          }}
-        />
-
         {/* Lead Form */}
         <section>
           <LeadForm
             title="Хотите, чтобы мы стали частью вашего вечера?"
-            subtitle="Оставьте заявку — ответим в течение часа и обсудим детали вашего мероприятия."
+            subtitle="Оставьте заявку — ответим в течение нескольких часов и обсудим детали вашего мероприятия."
           />
         </section>
       </div>

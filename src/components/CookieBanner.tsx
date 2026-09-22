@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { Cookie, Check, X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
+
+const STORAGE_KEY = 'nakama_cookies_accepted_until';
+const TTL_DAYS = 365;
 
 export function CookieBanner() {
   const { isDark } = useTheme();
@@ -9,8 +12,8 @@ export function CookieBanner() {
 
   useEffect(() => {
     try {
-      const accepted = localStorage.getItem('nakama_cookies_accepted');
-      if (!accepted) {
+      const acceptedUntil = Number(localStorage.getItem(STORAGE_KEY) || 0);
+      if (!acceptedUntil || acceptedUntil < Date.now()) {
         // Small delay so it smoothly appears after page load
         const timer = setTimeout(() => setIsVisible(true), 1200);
         return () => clearTimeout(timer);
@@ -23,7 +26,8 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     try {
-      localStorage.setItem('nakama_cookies_accepted', 'true');
+      const expiresAt = Date.now() + TTL_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(STORAGE_KEY, String(expiresAt));
     } catch {
       // Fallback
     }
@@ -91,13 +95,6 @@ export function CookieBanner() {
         {/* Content */}
         <div className="pt-3.5 space-y-2">
           <div className="flex items-start gap-2.5">
-            <div
-              className={`p-1.5 rounded-lg shrink-0 ${
-                isDark ? 'bg-[#A66CD9]/20 text-[#A66CD9]' : 'bg-[#6E389B]/10 text-[#6E389B]'
-              }`}
-            >
-              <Cookie className="w-4 h-4" />
-            </div>
             <div>
               <h4 className="font-serif text-base font-normal tracking-tight">
                 Мы используем файлы cookie

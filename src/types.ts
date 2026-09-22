@@ -1,10 +1,12 @@
+export type TrackCategory = 'atmosphere' | 'ru_hits' | 'world_hits' | 'party' | 'rock' | 'slow' | 'final' | 'ny';
+
 export interface TrackItem {
   id: string;
   title: string;
   originalArtist: string;
-  category: 'atmosphere' | 'ru_hits' | 'world_hits' | 'party' | 'rock' | 'slow' | 'final' | 'ny';
-  tag: string;
-  duration: string;
+  category: TrackCategory;
+  tag?: string;
+  duration?: string;
   audioPreviewUrl?: string;
 }
 
@@ -53,6 +55,8 @@ export interface SongRemakeItem {
   features?: string[];
 }
 
+export type CaseEventCategory = 'wedding' | 'corporate' | 'private' | 'birthday';
+
 export interface ReviewItem {
   id: string;
   author: string;
@@ -61,6 +65,19 @@ export interface ReviewItem {
   isPlaceholder?: boolean;
   eventDate?: string;
   eventType?: string;
+  category?: CaseEventCategory;
+  badge?: string;
+}
+
+export interface CaseStudyItem {
+  id: string;
+  category: CaseEventCategory;
+  title: string;
+  meta: string;
+  task: string;
+  action: string;
+  result: string;
+  photo: string;
 }
 
 export interface LeadFormData {

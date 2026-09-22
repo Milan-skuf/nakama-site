@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { AudioTrackPlayer } from '../components/AudioTrackPlayer';
 import { LeadForm } from '../components/LeadForm';
+import { CONTENT_IMAGES } from '../content';
 import { useTheme } from '../context/ThemeContext';
 import { usePageMeta } from '../utils/usePageMeta';
 
@@ -8,8 +10,8 @@ export const RepertoirePage: React.FC = () => {
   const { isDark } = useTheme();
 
   usePageMeta(
-    'Репертуар и каверы | Кавер-группа NAKAMA',
-    'Русские и зарубежные хиты, рок, поп, медляки. Слушайте демо прямо на сайте, отмечайте любимые треки — соберём программу под ваш вечер.'
+    'Репертуар | Кавер-группа NAKAMA — послушайте вживую',
+    'Русские и зарубежные хиты, рок, поп, медляки. Слушайте сниппеты прямо на сайте, выбирайте любимое — соберём программу под ваш вечер.'
   );
 
   return (
@@ -23,34 +25,46 @@ export const RepertoirePage: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 relative z-10">
         {/* Header Block */}
-        <div
-          className={`glass-card-frosted rounded-[36px] p-7 sm:p-12 lg:p-14 shadow-2xl space-y-5 border ${
-            isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#141218]'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <span
-              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest backdrop-blur-md border ${
-                isDark
-                  ? 'text-[#D49D42] bg-[#D49D42]/10 border-[#D49D42]/25'
-                  : 'text-[#B88228] bg-[#B88228]/10 border-[#B88228]/30'
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+          <div className="lg:col-span-7 space-y-5">
+            <div className="flex items-center gap-2">
+              <span
+                className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest backdrop-blur-md border ${
+                  isDark
+                    ? 'text-[#D49D42] bg-[#D49D42]/10 border-[#D49D42]/25'
+                    : 'text-[#B88228] bg-[#B88228]/10 border-[#B88228]/30'
+                }`}
+              >
+                <span>КАТАЛОГ КАВЕРОВ & АУДИОДЕМО</span>
+              </span>
+            </div>
+
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
+              Репертуар кавер-группы NAKAMA
+            </h1>
+
+            <p
+              className={`text-sm sm:text-base max-w-2xl leading-relaxed font-sans font-light ${
+                isDark ? 'text-neutral-300' : 'text-[#4A4552]'
               }`}
             >
-              <span>КАТАЛОГ КАВЕРОВ & АУДИОДЕМО</span>
-            </span>
+              Мы собрали репертуар не по жанрам, а по моментам вечера — вам не нужно разбираться в музыкальных стилях и исполнителях, просто выберите настроение для каждого этапа праздника. Слушайте сниппеты и отмечайте сердечком то, что понравилось.
+            </p>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
-            Репертуар NAKAMA
-          </h1>
-
-          <p
-            className={`text-sm sm:text-base max-w-2xl leading-relaxed font-sans font-light ${
-              isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-            }`}
-          >
-            Более 100 проверенных танцевальных, лирических и рок-хитов в фирменном многоголосом прочтении. Слушайте демо-записи прямо сейчас.
-          </p>
+          <div className="lg:col-span-5">
+            <div
+              className={`relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border ${
+                isDark ? 'border-white/15' : 'border-black/15'
+              }`}
+            >
+              <img
+                src={CONTENT_IMAGES.dsc00733}
+                alt="Кавер-группа NAKAMA — живое выступление"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Required Explanation Block */}
@@ -99,7 +113,7 @@ export const RepertoirePage: React.FC = () => {
           <AudioTrackPlayer />
         </div>
 
-        {/* Custom requests notice */}
+        {/* Не нашли свой трек? */}
         <div
           className={`glass-card-frosted rounded-[32px] p-7 sm:p-10 space-y-4 shadow-xl border ${
             isDark
@@ -107,16 +121,24 @@ export const RepertoirePage: React.FC = () => {
               : 'border-[#B88228]/40 text-[#141218] bg-[#B88228]/5'
           }`}
         >
-          <h3 className="font-serif text-xl sm:text-2xl font-normal leading-snug">
-            Нужна особенная песня для первого танца или интро?
-          </h3>
+          <h2 className="font-serif text-xl sm:text-2xl font-normal leading-snug">
+            Не нашли любимую песню?
+          </h2>
           <p
             className={`text-xs sm:text-sm leading-relaxed max-w-3xl font-sans font-light ${
               isDark ? 'text-neutral-300' : 'text-[#4A4552]'
             }`}
           >
-            В пакете «Роскошный максимум» мы разучиваем и аранжируем до 5 специальных треков для вашего праздника (первый танец молодоженов, корпоративный гимн или любимая песня именинника).
+            Репертуар — это не жёсткие рамки. Если для вашего вечера важен конкретный трек, которого нет в списке, — напишите его в комментарии к заявке. В пакете «Роскошный максимум» мы готовим до 5 каверов специально под ваше мероприятие. А ещё можем переписать текст любой песни под ваш повод.
           </p>
+          <Link
+            to="/packages"
+            className={`inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider underline underline-offset-4 ${
+              isDark ? 'text-[#D49D42] hover:text-white' : 'text-[#B88228] hover:text-[#141218]'
+            }`}
+          >
+            Посмотреть пакеты →
+          </Link>
         </div>
 
         {/* Lead Form */}

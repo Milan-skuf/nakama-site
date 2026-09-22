@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Download } from 'lucide-react';
 import { SafeImage } from '../components/SafeImage';
 import { MEDIA_LINKS } from '../data/content';
@@ -10,7 +11,7 @@ import { usePageMeta } from '../utils/usePageMeta';
 const PHOTO_TABS = [
   { key: 'all', label: 'все фотографии' },
   { key: 'live', label: 'выступления' },
-  { key: 'backstage', label: 'образы и стиль' },
+  { key: 'backstage', label: 'backstage' },
   { key: 'members', label: 'состав' },
 ];
 
@@ -55,6 +56,142 @@ const PHOTO_GALLERY = [
     title: 'Эмоциональные кульминации вечера',
     aspectRatio: 'portrait' as const,
   },
+  {
+    id: 'p6',
+    src: CONTENT_IMAGES.vocalTrioLive,
+    category: 'live',
+    alt: 'Трио вокалисток NAKAMA поют на сцене под живой бэнд',
+    title: 'Вокальное трио и живой бэнд крупным планом',
+    aspectRatio: 'landscape' as const,
+  },
+  {
+    id: 'p7',
+    src: CONTENT_IMAGES.dsc09927,
+    category: 'backstage',
+    alt: 'Полный состав NAKAMA на постановочной съёмке в стиле кино',
+    title: 'Съёмочная группа: весь состав в кадре',
+    aspectRatio: 'landscape' as const,
+  },
+  {
+    id: 'p8',
+    src: CONTENT_IMAGES.dsc00204,
+    category: 'members',
+    alt: 'Групповой портрет части состава NAKAMA в кинематографичной концепции',
+    title: 'Команда до выхода на сцену',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p9',
+    src: CONTENT_IMAGES.liveVenue1,
+    category: 'live',
+    alt: 'Живое выступление NAKAMA в ресторане «Пели ели на качели»',
+    title: 'Живой вокал и гитара на площадке',
+    aspectRatio: 'landscape' as const,
+  },
+  {
+    id: 'p10',
+    src: CONTENT_IMAGES.liveVenue2,
+    category: 'live',
+    alt: 'Эмоциональное живое выступление вокалистки NAKAMA',
+    title: 'Кульминация номера в свете софитов',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p11',
+    src: CONTENT_IMAGES.bassistVenue,
+    category: 'live',
+    alt: 'Басист кавер-группы NAKAMA на сцене площадки',
+    title: 'Живая ритм-секция на выступлении',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p12',
+    src: CONTENT_IMAGES.vocalistsPlayful,
+    category: 'members',
+    alt: 'Вокалистки кавер-группы NAKAMA — фотосессия состава',
+    title: 'Пять голосов вокального ансамбля',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p13',
+    src: CONTENT_IMAGES.guysPlayful,
+    category: 'members',
+    alt: 'Музыканты кавер-группы NAKAMA — фотосессия состава',
+    title: 'Инструментальная часть коллектива',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p14',
+    src: CONTENT_IMAGES.editorialGroup1,
+    category: 'backstage',
+    alt: 'Кавер-группа NAKAMA — casual-съёмка полного состава',
+    title: 'Полный состав вне сцены',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p15',
+    src: CONTENT_IMAGES.editorialGroup2,
+    category: 'backstage',
+    alt: 'Кавер-группа NAKAMA — casual-съёмка полного состава',
+    title: 'Атмосфера фотосессии',
+    aspectRatio: 'square' as const,
+  },
+  {
+    id: 'p16',
+    src: CONTENT_IMAGES.groupSunglasses,
+    category: 'backstage',
+    alt: 'Кавер-группа NAKAMA в тёмных очках — стилизованная съёмка',
+    title: 'Стилизованный портрет состава',
+    aspectRatio: 'square' as const,
+  },
+  {
+    id: 'p17',
+    src: CONTENT_IMAGES.groupShadows,
+    category: 'backstage',
+    alt: 'Кавер-группа NAKAMA — драматичная студийная съёмка',
+    title: 'Свет и тени: часть команды',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p18',
+    src: CONTENT_IMAGES.groupCouch,
+    category: 'backstage',
+    alt: 'Кавер-группа NAKAMA — непринуждённая съёмка полного состава',
+    title: 'Полный состав на съёмке в студии',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p19',
+    src: CONTENT_IMAGES.soloCouch,
+    category: 'backstage',
+    alt: 'Участник кавер-группы NAKAMA — портрет',
+    title: 'Портрет участника коллектива',
+    aspectRatio: 'square' as const,
+  },
+  {
+    id: 'p20',
+    src: CONTENT_IMAGES.soloPortraitDress,
+    category: 'backstage',
+    alt: 'Вокалистка кавер-группы NAKAMA — стилизованный портрет',
+    title: 'Сценический образ вокалистки',
+    aspectRatio: 'square' as const,
+  },
+  {
+    id: 'p21',
+    src: CONTENT_IMAGES.trioDresses,
+    category: 'backstage',
+    alt: 'Вокалистки кавер-группы NAKAMA в вечерних образах',
+    title: 'Вечерние образы для статусных мероприятий',
+    aspectRatio: 'portrait' as const,
+  },
+  {
+    id: 'p22',
+    src: CONTENT_IMAGES.newyearGroup,
+    category: 'backstage',
+    alt: 'Кавер-группа NAKAMA — новогодняя фотосессия',
+    title: 'Праздничный образ к новогоднему сезону',
+    aspectRatio: 'portrait' as const,
+  },
 ];
 
 export const PhotoPage: React.FC = () => {
@@ -62,8 +199,8 @@ export const PhotoPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
 
   usePageMeta(
-    'Фотогалерея | Кавер-группа NAKAMA',
-    'Профессиональные фото кавер-группы NAKAMA с выступлений и backstage. Живые эмоции, сцена, зал — оцените, как выглядит группа вживую.'
+    'Фотогалерея | Кавер-группа NAKAMA в Новосибирске',
+    'Профессиональные фото кавер-группы NAKAMA с выступлений и backstage. Живые эмоции, сцена, зал — оцените, как выглядит группа вживую на мероприятиях в Новосибирске.'
   );
 
   const filteredPhotos =
@@ -121,7 +258,7 @@ export const PhotoPage: React.FC = () => {
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
-            Фотогалерея NAKAMA
+            Фото кавер-группы NAKAMA
           </h1>
 
           <p
@@ -132,12 +269,12 @@ export const PhotoPage: React.FC = () => {
             Кадры с фотосессий, живых концертов и постановочных съёмок в кинематографичной концепции.
           </p>
 
-          <div className="pt-3">
+          <div className="pt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
             <button
               type="button"
               id="download-media-pack-btn"
               onClick={handleDownloadMediaPack}
-              className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs font-display font-black uppercase tracking-wider transition-all shadow-xl hover:scale-[1.02] active:scale-98 cursor-pointer ${
+              className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs font-display font-black uppercase tracking-wider transition-all shadow-xl hover:scale-[1.02] active:scale-98 cursor-pointer shrink-0 ${
                 isDark
                   ? 'bg-white text-black hover:bg-neutral-200'
                   : 'bg-[#141218] text-white hover:bg-neutral-800'
@@ -146,6 +283,14 @@ export const PhotoPage: React.FC = () => {
               <Download className={`w-4 h-4 ${isDark ? 'text-black' : 'text-white'}`} />
               <span>Скачать медиапакет (для агентств и СМИ)</span>
             </button>
+            <Link
+              to="/agencies"
+              className={`text-xs font-mono uppercase tracking-wider underline underline-offset-4 whitespace-nowrap ${
+                isDark ? 'text-neutral-400 hover:text-white' : 'text-[#686370] hover:text-[#141218]'
+              }`}
+            >
+              Работаете с агентством? Смотреть условия для организаторов →
+            </Link>
           </div>
         </div>
 
@@ -192,7 +337,8 @@ export const PhotoPage: React.FC = () => {
         <section>
           <LeadForm
             title="Забронировать группу NAKAMA"
-            subtitle="Оставьте заявку, чтобы забронировать нужную дату выступления."
+            subtitle="Оставьте заявку — обсудим дату, площадку и программу."
+            redirectTo="/thanks"
           />
         </section>
       </div>

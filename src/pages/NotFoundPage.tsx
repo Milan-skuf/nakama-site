@@ -8,7 +8,7 @@ export const NotFoundPage: React.FC = () => {
   const { isDark } = useTheme();
 
   usePageMeta(
-    '404 — Такой страницы нет | Кавер-группа NAKAMA',
+    'Страница не найдена | NAKAMA',
     'Страница не найдена. Вернитесь на главную, послушайте репертуар или посмотрите пакеты и цены кавер-группы NAKAMA.'
   );
 
@@ -45,7 +45,7 @@ export const NotFoundPage: React.FC = () => {
               404
             </div>
             <h1 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight">
-              Такой страницы нет
+              Такой страницы нет 🎶
             </h1>
             <p
               className={`font-handwriting text-xl sm:text-2xl text-[#8CA069] dark:text-[#A6BE7E] -rotate-1 select-none`}

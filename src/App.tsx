@@ -12,6 +12,7 @@ import { PhotoPage } from './pages/PhotoPage';
 import { CasesPage } from './pages/CasesPage';
 import { AgenciesPage } from './pages/AgenciesPage';
 import { ContactsPage } from './pages/ContactsPage';
+import { ThanksPage } from './pages/ThanksPage';
 import { ConsentPage } from './pages/ConsentPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -37,6 +38,7 @@ export function App() {
               <Route path="/cases" element={<CasesPage />} />
               <Route path="/agencies" element={<AgenciesPage />} />
               <Route path="/contacts" element={<ContactsPage />} />
+              <Route path="/thanks" element={<ThanksPage />} />
               <Route path="/consent" element={<ConsentPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/404" element={<NotFoundPage />} />

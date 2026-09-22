@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { CONTACT_INFO } from '../data/content';
+import { Phone, Send, MessageCircle } from 'lucide-react';
+import { CONTACT_INFO, PHOTO_SLOTS_MAP } from '../data/content';
 import { LeadForm } from '../components/LeadForm';
+import { PhotoSlotPlaceholder } from '../components/PhotoSlotPlaceholder';
 import { useTheme } from '../context/ThemeContext';
 import { usePageMeta } from '../utils/usePageMeta';
 
@@ -42,7 +43,7 @@ export const ContactsPage: React.FC = () => {
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
-            Контакты и бронь даты
+            Свяжитесь с NAKAMA
           </h1>
 
           <p
@@ -50,113 +51,116 @@ export const ContactsPage: React.FC = () => {
               isDark ? 'text-neutral-300' : 'text-[#4A4552]'
             }`}
           >
-            Минимальный барьер для связи. Ответим в течение часа и зафиксируем доступность вашей даты в концертном календаре.
+            Расскажите о вашем событии — ответим в течение нескольких часов, подскажем по датам и поможем выбрать формат.
           </p>
         </div>
 
-        {/* Quick Contact Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Phone */}
-          <div
-            className={`p-7 sm:p-8 rounded-[32px] glass-card-frosted glass-card-hover space-y-5 shadow-xl flex flex-col justify-between border ${
-              isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#141218]'
-            }`}
-          >
-            <div className="space-y-3">
-              <span
-                className={`text-xs font-mono font-bold uppercase tracking-wider block ${
-                  isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
-                }`}
-              >
-                Концертный менеджер
-              </span>
-              <div className="font-serif text-2xl font-normal">
-                Анна
-              </div>
-            </div>
-            <a
-              href={`tel:${CONTACT_INFO.phoneClean}`}
-              className={`inline-block pt-3 text-xl sm:text-2xl font-mono font-bold transition-colors ${
-                isDark ? 'text-white hover:text-[#D49D42]' : 'text-[#141218] hover:text-[#B88228]'
-              }`}
-            >
-              {CONTACT_INFO.phone}
-            </a>
+        {/* =========================================================================
+            ПРЯМЫЕ КОНТАКТЫ
+           ========================================================================= */}
+        <section className="space-y-8">
+          <div className={`border-b pb-4 ${isDark ? 'border-white/15' : 'border-black/15'}`}>
+            <span className="badge-olive text-xs uppercase tracking-[0.2em] font-mono font-bold px-3 py-1 rounded-full inline-block mb-2">
+              / НАПРЯМУЮ
+            </span>
+            <h2 className={`font-serif text-2xl sm:text-3xl font-normal tracking-tight ${isDark ? 'text-white' : 'text-[#141218]'}`}>
+              Напишите нам напрямую
+            </h2>
           </div>
 
-          {/* Card 2: Messengers */}
           <div
-            className={`p-7 sm:p-8 rounded-[32px] glass-card-frosted glass-card-hover space-y-5 shadow-xl flex flex-col justify-between border ${
+            className={`p-7 sm:p-10 rounded-[36px] glass-card-frosted shadow-xl border grid grid-cols-1 sm:grid-cols-12 gap-8 items-center ${
               isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#141218]'
             }`}
           >
-            <div className="space-y-3">
-              <span
-                className={`text-xs font-mono font-bold uppercase tracking-wider block ${
-                  isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
-                }`}
-              >
-                Мессенджеры
-              </span>
-              <div className="font-serif text-2xl font-normal">
-                Быстрый диалог
-              </div>
+            <div className="sm:col-span-4">
+              <PhotoSlotPlaceholder slot={PHOTO_SLOTS_MAP.managerAnnaPhoto} allowPreviewToggle={true} />
             </div>
-            <div className="flex gap-2.5 pt-3">
-              <a
-                href={CONTACT_INFO.whatsapp}
-                target="_blank"
-                rel="noreferrer"
-                className={`flex-1 py-3 px-4 rounded-full border transition-all text-xs text-center font-mono font-bold uppercase tracking-wider ${
-                  isDark
-                    ? 'border-white/20 bg-white/10 hover:bg-white/20 text-white'
-                    : 'border-black/15 bg-black/5 hover:bg-black/10 text-[#141218]'
-                }`}
-              >
-                WhatsApp
-              </a>
-              <a
-                href={CONTACT_INFO.telegram}
-                target="_blank"
-                rel="noreferrer"
-                className={`flex-1 py-3 px-4 rounded-full transition-all text-xs text-center font-display font-black uppercase tracking-wider shadow-lg ${
-                  isDark
-                    ? 'bg-white text-black hover:bg-neutral-200'
-                    : 'bg-[#141218] text-white hover:bg-neutral-800'
-                }`}
-              >
-                Telegram
-              </a>
+
+            <div className="sm:col-span-8 space-y-5">
+              <div>
+                <span
+                  className={`text-xs font-mono font-bold uppercase tracking-wider block mb-1 ${
+                    isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
+                  }`}
+                >
+                  Концертный менеджер
+                </span>
+                <a
+                  href={`tel:${CONTACT_INFO.phoneClean}`}
+                  className={`font-serif text-2xl sm:text-3xl font-normal transition-colors ${
+                    isDark ? 'text-white hover:text-[#D49D42]' : 'text-[#141218] hover:text-[#B88228]'
+                  }`}
+                >
+                  Анна — {CONTACT_INFO.phone}
+                </a>
+                <p className={`text-xs sm:text-sm font-sans pt-1 ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                  Telegram / WhatsApp / MAX — как вам удобнее
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2.5">
+                <a
+                  href={CONTACT_INFO.telegram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`inline-flex items-center gap-2 py-2.5 px-5 rounded-full transition-all text-xs font-display font-black uppercase tracking-wider shadow-lg ${
+                    isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-[#141218] text-white hover:bg-neutral-800'
+                  }`}
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Telegram</span>
+                </a>
+                <a
+                  href={CONTACT_INFO.whatsapp}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`inline-flex items-center gap-2 py-2.5 px-5 rounded-full border transition-all text-xs font-mono font-bold uppercase tracking-wider ${
+                    isDark
+                      ? 'border-white/20 bg-white/10 hover:bg-white/20 text-white'
+                      : 'border-black/15 bg-black/5 hover:bg-black/10 text-[#141218]'
+                  }`}
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>WhatsApp</span>
+                </a>
+                <a
+                  href={`tel:${CONTACT_INFO.phoneClean}`}
+                  className={`inline-flex items-center gap-2 py-2.5 px-5 rounded-full border transition-all text-xs font-mono font-bold uppercase tracking-wider ${
+                    isDark
+                      ? 'border-white/20 bg-white/10 hover:bg-white/20 text-white'
+                      : 'border-black/15 bg-black/5 hover:bg-black/10 text-[#141218]'
+                  }`}
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>Позвонить</span>
+                </a>
+              </div>
+
+              <p className={`text-xs sm:text-sm font-sans leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                Отвечаем каждый день с 10:00 до 21:00 (МСК+4). Если написали ночью — обязательно ответим утром.
+              </p>
             </div>
           </div>
 
-          {/* Card 3: Geography */}
+          {/* Geography card */}
           <div
-            className={`p-7 sm:p-8 rounded-[32px] glass-card-frosted glass-card-hover space-y-5 shadow-xl flex flex-col justify-between border ${
+            className={`p-6 sm:p-7 rounded-[28px] glass-card-frosted shadow-xl border flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 ${
               isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#141218]'
             }`}
           >
-            <div className="space-y-3">
-              <span
-                className={`text-xs font-mono font-bold uppercase tracking-wider block ${
-                  isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
-                }`}
-              >
-                География выездов
-              </span>
-              <div className="font-serif text-2xl font-normal">
-                Вся Россия
-              </div>
-            </div>
-            <p
-              className={`text-xs sm:text-sm font-sans font-light leading-relaxed pt-2 ${
-                isDark ? 'text-neutral-300' : 'text-[#4A4552]'
+            <span
+              className={`text-xs font-mono font-bold uppercase tracking-wider shrink-0 ${
+                isDark ? 'text-[#D49D42]' : 'text-[#B88228]'
               }`}
             >
-              Базируемся в Новосибирске. Выезжаем в Томск, Кемерово, Барнаул, Москву, СПб и любые города мира.
+              Куда вы выезжаете?
+            </span>
+            <p className={`text-xs sm:text-sm font-sans font-light leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+              Вся Россия. Базируемся в Новокузнецке, регулярно выступаем в Новосибирске, Томске, Кемерово, Барнауле, Москве, СПб и других городах.
             </p>
           </div>
-        </div>
+        </section>
 
         {/* Short "How we work" 4 steps block */}
         <section
@@ -268,8 +272,9 @@ export const ContactsPage: React.FC = () => {
         {/* Lead Form */}
         <section>
           <LeadForm
-            title="Оставить заявку на мероприятие"
+            title="Или оставьте заявку — мы перезвоним"
             subtitle="Заполните несколько полей, и менеджер свяжется с вами для расчёта и бронирования даты."
+            redirectTo="/thanks"
           />
         </section>
       </div>

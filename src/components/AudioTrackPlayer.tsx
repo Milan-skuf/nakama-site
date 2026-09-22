@@ -1,21 +1,18 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Play, Pause, Disc3, Volume2, VolumeX, Download, Filter, Radio, Music2, Heart, Check, ChevronDown, Sparkles } from 'lucide-react';
-import { TRACKS_DATA } from '../data/content';
+import { TRACKS_DATA, CATEGORY_LABELS, CATEGORY_DESCRIPTIONS } from '../data/content';
 import { TrackItem } from '../types';
 import { NowPlayingArt } from './NowPlayingArt';
 import { useTheme } from '../context/ThemeContext';
 import { useFavorites } from '../utils/favorites';
+import { downloadRepertoirePdf } from '../utils/generateRepertoirePdf';
+import { RepertoireRequestModal } from './RepertoireRequestModal';
 
 const CATEGORIES = [
   { key: 'all', label: 'все треки' },
-  { key: 'atmosphere', label: 'атмосфера' },
-  { key: 'ru_hits', label: 'русские хиты' },
-  { key: 'world_hits', label: 'зарубежные хиты' },
-  { key: 'party', label: 'раскачать зал' },
-  { key: 'rock', label: 'на разрыв' },
-  { key: 'slow', label: 'медляки' },
-  { key: 'final', label: 'финал' },
-  { key: 'ny', label: 'новый год' },
+  ...(Object.entries(CATEGORY_LABELS) as [TrackItem['category'], string][]).map(
+    ([key, label]) => ({ key, label: label.toLowerCase() })
+  ),
 ];
 
 interface AudioTrackPlayerProps {
@@ -38,7 +35,7 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
   const [currentTimeSec, setCurrentTimeSec] = useState(0);
   const [volume, setVolume] = useState(0.85);
   const [isMuted, setIsMuted] = useState(false);
-  const [displayLimit, setDisplayLimit] = useState(12);
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
 
   // Subtle vinyl-surface ambience on the synthesized preview (always on, no user-facing toggle)
   const crackleEnabled = true;
@@ -60,18 +57,11 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
       : tracks.filter((t) => t.category === activeCategory);
   }, [activeCategory, tracks, isFavorite]);
 
-  const visibleTracks = useMemo(() => {
-    return filteredTracks.slice(0, displayLimit);
-  }, [filteredTracks, displayLimit]);
-
   const handleFinishSelectionClick = () => {
     if (onFinishSelection) {
       onFinishSelection();
     } else {
-      const el = document.getElementById('booking-section');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
+      setIsRequestModalOpen(true);
     }
   };
 
@@ -297,25 +287,16 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
-  const handleDownloadRepertoire = () => {
-    const textContent =
-      `РЕПЕРТУАР КАВЕР-ГРУППЫ NAKAMA (100+ ТРЕКОВ)\n\n` +
-      `10 человек на сцене, 6 вокалистов, 100% живой звук без плейбеков.\n` +
-      `Город: Новосибирск, выезд по всей России.\nМенеджер: 8-906-980-65-25 (Анна)\n\n` +
-      TRACKS_DATA.map(
-        (t, idx) => `${idx + 1}. ${t.title} — ${t.originalArtist} [${t.tag}]`
-      ).join('\n') +
-      `\n\n... и ещё более 90 треков в полном концертном каталоге.`;
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
-    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'NAKAMA_Repertoire_100_Tracks.txt';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const handleDownloadRepertoire = async () => {
+    if (isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
+    try {
+      await downloadRepertoirePdf(TRACKS_DATA);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   return (
@@ -355,7 +336,7 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
                       : 'bg-[#B88228]/15 text-[#B88228] border-[#B88228]/30'
                   }`}
                 >
-                  {currentTrack.tag}
+                  {CATEGORY_LABELS[currentTrack.category]}
                 </span>
                 <span
                   className={`text-[11px] flex items-center gap-1 font-bold uppercase tracking-wider ${
@@ -370,14 +351,6 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
                   <span>ЖИВОЙ КАВЕР NAKAMA</span>
                 </span>
               </div>
-
-              <span
-                className={`text-xs font-mono ${
-                  isDark ? 'text-neutral-400' : 'text-[#686370]'
-                }`}
-              >
-                {currentTrack.duration}
-              </span>
             </div>
 
             {/* Title & Artist */}
@@ -518,10 +491,7 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
                   key={cat.key}
                   type="button"
                   id={`cat-filter-${cat.key}`}
-                  onClick={() => {
-                    setActiveCategory(cat.key);
-                    setDisplayLimit(12);
-                  }}
+                  onClick={() => setActiveCategory(cat.key)}
                   className={`px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 cursor-pointer uppercase tracking-wider ${
                     active
                       ? isDark
@@ -541,10 +511,7 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
             <button
               type="button"
               id="cat-filter-favorites"
-              onClick={() => {
-                setActiveCategory('favorites');
-                setDisplayLimit(12);
-              }}
+              onClick={() => setActiveCategory('favorites')}
               className={`px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 cursor-pointer uppercase tracking-wider flex items-center gap-1.5 ${
                 activeCategory === 'favorites'
                   ? 'bg-rose-600 text-white font-black border border-rose-500 shadow-md scale-105'
@@ -590,6 +557,12 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
               </span>
             </div>
 
+            {activeCategory !== 'all' && activeCategory !== 'favorites' && (
+              <p className={`text-xs sm:text-sm leading-relaxed font-sans ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                {CATEGORY_DESCRIPTIONS[activeCategory as TrackItem['category']]}
+              </p>
+            )}
+
             {filteredTracks.length === 0 ? (
               <div
                 className={`p-8 text-center rounded-2xl border ${
@@ -612,7 +585,7 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
                   isDark ? 'scrollbar-thumb-white/20' : 'scrollbar-thumb-black/20'
                 }`}
               >
-                {visibleTracks.map((track) => {
+                {filteredTracks.map((track) => {
                   const isSelected = track.id === currentTrack.id;
                   const isCurrentPlaying = isSelected && isPlaying;
                   const favorited = isFavorite(track.id);
@@ -671,16 +644,8 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
                         </div>
                       </button>
 
-                      {/* Duration & Favorite Heart Button */}
-                      <div className="flex items-center gap-3 shrink-0">
-                        <span
-                          className={`text-[10px] font-mono hidden sm:inline ${
-                            isDark ? 'text-neutral-400' : 'text-[#686370]'
-                          }`}
-                        >
-                          {track.duration}
-                        </span>
-
+                      {/* Favorite Heart Button */}
+                      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                         {/* Heart Button */}
                         <button
                           type="button"
@@ -710,65 +675,66 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
               </div>
             )}
 
-            {/* Pagination / Show More */}
-            {filteredTracks.length > displayLimit && (
-              <div className="pt-2 text-center">
-                <button
-                  type="button"
-                  onClick={() => setDisplayLimit((prev) => prev + 12)}
-                  className={`px-5 py-2 rounded-full text-xs font-mono uppercase tracking-wider border transition-all cursor-pointer ${
-                    isDark
-                      ? 'bg-white/5 hover:bg-white/15 border-white/15 text-neutral-200'
-                      : 'bg-black/5 hover:bg-black/10 border-black/10 text-[#141218]'
-                  }`}
-                >
-                  Показать ещё ({filteredTracks.length - displayLimit})
-                </button>
-              </div>
-            )}
           </div>
 
-          {/* Sticky / Floating Selection Completion Bar when items are favorited */}
+          {/* Selection Completion Bar (also floats sticky at bottom on mobile once a track is picked) */}
           {favoritesCount > 0 && (
-            <div
-              className={`p-4 rounded-2xl border shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3 transition-all animate-fadeIn ${
-                isDark
-                  ? 'bg-gradient-to-r from-[#D49D42]/20 via-[#E8590C]/15 to-transparent border-[#D49D42]/40 text-white'
-                  : 'bg-gradient-to-r from-[#B88228]/15 via-[#C54E0E]/10 to-transparent border-[#B88228]/40 text-[#141218]'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0">
-                  <Heart className="w-4 h-4 fill-white" />
-                </div>
-                <div>
-                  <div className="font-bold text-xs uppercase tracking-wide">
-                    Выбрано песен: {favoritesCount}
+            <>
+              <p className={`text-xs sm:text-sm font-sans ${isDark ? 'text-neutral-400' : 'text-[#686370]'}`}>
+                Выбрали любимое? Отправьте нам свой список — соберём из него программу вашего вечера.
+              </p>
+              <div
+                className={`p-4 rounded-2xl border shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3 transition-all animate-fadeIn ${
+                  isDark
+                    ? 'bg-gradient-to-r from-[#D49D42]/20 via-[#E8590C]/15 to-transparent border-[#D49D42]/40 text-white'
+                    : 'bg-gradient-to-r from-[#B88228]/15 via-[#C54E0E]/10 to-transparent border-[#B88228]/40 text-[#141218]'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0">
+                    <Heart className="w-4 h-4 fill-white" />
                   </div>
-                  <div
-                    className={`text-[11px] font-sans truncate max-w-xs sm:max-w-md ${
-                      isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-                    }`}
-                  >
-                    {favoriteTracks.map((t) => t.title).join(', ')}
+                  <div>
+                    <div className="font-bold text-xs uppercase tracking-wide">
+                      Выбрано песен: {favoritesCount}
+                    </div>
+                    <div
+                      className={`text-[11px] font-sans truncate max-w-xs sm:max-w-md ${
+                        isDark ? 'text-neutral-300' : 'text-[#4A4552]'
+                      }`}
+                    >
+                      {favoriteTracks.map((t) => t.title).join(', ')}
+                    </div>
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  id="finish-selection-btn"
+                  onClick={handleFinishSelectionClick}
+                  className={`hidden sm:flex w-full sm:w-auto px-5 py-2.5 rounded-full text-xs font-display font-black uppercase tracking-wider shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer items-center justify-center gap-2 ${
+                    isDark
+                      ? 'bg-white text-black hover:bg-neutral-200'
+                      : 'bg-[#141218] text-white hover:bg-black'
+                  }`}
+                >
+                  <Check className="w-4 h-4 text-[#8CA069]" />
+                  <span>Завершить отбор</span>
+                </button>
               </div>
 
+              {/* Mobile: floating sticky button so it's always reachable on a long track list */}
               <button
                 type="button"
-                id="finish-selection-btn"
                 onClick={handleFinishSelectionClick}
-                className={`w-full sm:w-auto px-5 py-2.5 rounded-full text-xs font-display font-black uppercase tracking-wider shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2 ${
-                  isDark
-                    ? 'bg-white text-black hover:bg-neutral-200'
-                    : 'bg-[#141218] text-white hover:bg-black'
+                className={`sm:hidden fixed bottom-4 left-4 right-4 z-40 px-5 py-3.5 rounded-full text-xs font-display font-black uppercase tracking-wider shadow-2xl transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 ${
+                  isDark ? 'bg-white text-black' : 'bg-[#141218] text-white'
                 }`}
               >
                 <Check className="w-4 h-4 text-[#8CA069]" />
-                <span>Завершить отбор и отправить в заявку</span>
+                <span>Завершить отбор ({favoritesCount})</span>
               </button>
-            </div>
+            </>
           )}
 
           {/* Footer: Repertoire Download & Live Info */}
@@ -780,14 +746,15 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
             <button
               type="button"
               onClick={handleDownloadRepertoire}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl border font-mono text-xs uppercase tracking-wider transition-all cursor-pointer ${
+              disabled={isGeneratingPdf}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl border font-mono text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait ${
                 isDark
                   ? 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
                   : 'bg-black/5 hover:bg-black/10 border-black/10 text-[#141218]'
               }`}
             >
               <Download className="w-3.5 h-3.5 text-[#D49D42]" />
-              <span>СКАЧАТЬ РЕПЕРТУАР (.TXT)</span>
+              <span>{isGeneratingPdf ? 'ГОТОВИМ PDF…' : 'СКАЧАТЬ РЕПЕРТУАР (.PDF)'}</span>
             </button>
 
             <span
@@ -795,11 +762,13 @@ export const AudioTrackPlayer: React.FC<AudioTrackPlayerProps> = ({
                 isDark ? 'text-neutral-400' : 'text-[#686370]'
               }`}
             >
-              100+ ПЕСЕН В ПОЛНОМ РАЙДЕРЕ NAKAMA
+              {tracks.length}+ ПЕСЕН В ПОЛНОМ РЕПЕРТУАРЕ NAKAMA
             </span>
           </div>
         </div>
       </div>
+
+      <RepertoireRequestModal open={isRequestModalOpen} onClose={() => setIsRequestModalOpen(false)} />
     </div>
   );
 };

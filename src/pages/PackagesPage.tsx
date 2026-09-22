@@ -7,8 +7,11 @@ import {
   MapPin,
 } from 'lucide-react';
 import {
-  CONTACT_INFO,
+  PACKAGES_DATA,
+  SONG_REMAKE_DATA,
+  FAQ_DATA,
 } from '../data/content';
+import { CONTENT_IMAGES } from '../content';
 import { LeadForm } from '../components/LeadForm';
 import { EditorialTariffsGrid } from '../components/EditorialTariffsGrid';
 import { useTheme } from '../context/ThemeContext';
@@ -18,8 +21,8 @@ export const PackagesPage: React.FC = () => {
   const { isDark } = useTheme();
 
   usePageMeta(
-    'Форматы и ваши условия | Кавер-группа NAKAMA',
-    'Два формата живого выступления кавер-группы NAKAMA — от 92 000 ₽. Полный состав 10 человек, свой звукорежиссёр, работа со сценарием вечера.'
+    'Пакеты и цены | Кавер-группа NAKAMA — Новосибирск',
+    'Два формата выступления от 92 000 ₽. Полный состав 10 человек, живой звук, работа со сценарием. Подберём программу под ваш вечер в Новосибирске и по всей России →'
   );
 
   return (
@@ -33,39 +36,64 @@ export const PackagesPage: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-24 relative z-10">
         {/* =========================================================================
-            HEADER: ФОРМАТЫ И ВАШИ УСЛОВИЯ
+            HEADER: ПАКЕТЫ И ЦЕНЫ
            ========================================================================= */}
-        <div className="space-y-5">
-          <div className="flex flex-wrap items-center gap-3">
-            <span
-              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest backdrop-blur-md border ${
-                isDark
-                  ? 'text-[#D49D42] bg-[#D49D42]/10 border-[#D49D42]/25'
-                  : 'text-[#B88228] bg-[#B88228]/10 border-[#B88228]/30'
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+          <div className="lg:col-span-7 space-y-5">
+            <div className="flex flex-wrap items-center gap-3">
+              <span
+                className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest backdrop-blur-md border ${
+                  isDark
+                    ? 'text-[#D49D42] bg-[#D49D42]/10 border-[#D49D42]/25'
+                    : 'text-[#B88228] bg-[#B88228]/10 border-[#B88228]/30'
+                }`}
+              >
+                <span>ОФИЦИАЛЬНЫЙ ПРАЙС-ЛИСТ & СТАНДАРТЫ</span>
+              </span>
+              <span
+                className={`text-xs font-mono ${
+                  isDark ? 'text-neutral-400' : 'text-[#686370]'
+                }`}
+              >
+                ФИКСИРОВАННАЯ СМЕТА • БЕЗ СКРЫТЫХ ДОПЛАТ
+              </span>
+            </div>
+
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
+              Пакеты и цены на выступление кавер-группы NAKAMA
+            </h1>
+
+            <p
+              className={`text-sm sm:text-base max-w-3xl leading-relaxed font-sans font-light ${
+                isDark ? 'text-neutral-300' : 'text-[#4A4552]'
               }`}
             >
-              <span>ОФИЦИАЛЬНЫЙ ПРАЙС-ЛИСТ & СТАНДАРТЫ</span>
-            </span>
-            <span
-              className={`text-xs font-mono ${
-                isDark ? 'text-neutral-400' : 'text-[#686370]'
+              Мы предлагаем два формата: состав всегда полный, звук — только живой. Дальше выбираете сами: готовая программа или история вашего вечера, продуманная вместе с нами до мелочей.
+            </p>
+
+            <Link
+              to="/repertoire"
+              className={`inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider underline underline-offset-4 ${
+                isDark ? 'text-neutral-400 hover:text-white' : 'text-[#686370] hover:text-[#141218]'
               }`}
             >
-              ФИКСИРОВАННАЯ СМЕТА • БЕЗ СКРЫТЫХ ДОПЛАТ
-            </span>
+              Хотите сначала услышать, как мы звучим? → Слушать репертуар
+            </Link>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight">
-            Форматы и ваши условия
-          </h1>
-
-          <p
-            className={`text-sm sm:text-base max-w-3xl leading-relaxed font-sans font-light ${
-              isDark ? 'text-neutral-300' : 'text-[#4A4552]'
-            }`}
-          >
-            Два выверенных формата живого выступления под задачи вашего вечера. Каждый пакет включает штатного звукорежиссёра, полный состав бэнда и гарантию чистого полифонического звука.
-          </p>
+          <div className="lg:col-span-5">
+            <div
+              className={`relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border ${
+                isDark ? 'border-white/15' : 'border-black/15'
+              }`}
+            >
+              <img
+                src={CONTENT_IMAGES.dsc00772}
+                alt="Кавер-группа NAKAMA — полный состав"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+          </div>
         </div>
 
         {/* =========================================================================
@@ -94,7 +122,7 @@ export const PackagesPage: React.FC = () => {
                   / БАЗОВЫЙ СТАНДАРТ
                 </span>
                 <h2 className="font-serif text-xl sm:text-2xl font-normal">
-                  В каждый тариф уже включено
+                  Это есть в каждом пакете — без исключений
                 </h2>
               </div>
               <span className="text-xs font-mono opacity-70">
@@ -108,9 +136,9 @@ export const PackagesPage: React.FC = () => {
                   <Users className="w-4 h-4" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-serif font-normal text-base">Полный состав — 10 человек</h3>
+                  <h3 className="font-serif font-normal text-base">Полный состав всегда</h3>
                   <p className={`text-xs leading-relaxed font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
-                    6 вокалистов и 4 музыканта (барабаны, бас, гитары, клавиши). Только 100% живой звук без плейбеков.
+                    Мы не предлагаем NAKAMA в «сокращённом виде» — именно полный ансамбль создаёт то многоголосое звучание, за которым к нам обращаются.
                   </p>
                 </div>
               </div>
@@ -120,9 +148,9 @@ export const PackagesPage: React.FC = () => {
                   <Sliders className="w-4 h-4" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-serif font-normal text-base">Штатный звукорежиссёр</h3>
+                  <h3 className="font-serif font-normal text-base">Свой звукорежиссёр</h3>
                   <p className={`text-xs leading-relaxed font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
-                    Свой специалист за цифровым пультом контролирует акустику каждого вокала и баланс в зале весь вечер.
+                    На каждом выступлении, независимо от формата — качество звука под нашей ответственностью.
                   </p>
                 </div>
               </div>
@@ -143,40 +171,79 @@ export const PackagesPage: React.FC = () => {
         </section>
 
         {/* =========================================================================
-            3. ДОПОЛНИТЕЛЬНАЯ ОПЦИЯ: «ПЕСНЯ-ПЕРЕДЕЛКА»
+            3. ДОПОЛНИТЕЛЬНАЯ УСЛУГА: «ПЕСНЯ-ПЕРЕДЕЛКА»
            ========================================================================= */}
-        <section>
-          <div
-            className={`rounded-[28px] p-6 sm:p-8 border shadow-lg flex flex-col lg:flex-row lg:items-center justify-between gap-6 ${
-              isDark
-                ? 'bg-gradient-to-r from-purple-950/20 via-black/40 to-black/20 border-white/15 text-white'
-                : 'bg-gradient-to-r from-[#A66CD9]/10 via-white to-white border-black/10 text-[#141218]'
-            }`}
-          >
-            <div className="space-y-2 max-w-2xl">
-              <span className="badge-violet text-[10px] font-mono px-3 py-0.5 rounded-full uppercase font-bold">
+        <section
+          className={`pt-16 sm:pt-20 border-t space-y-8 ${
+            isDark ? 'border-white/10' : 'border-black/10'
+          }`}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+            <div className="lg:col-span-7 space-y-4">
+              <span className="badge-violet text-[10px] font-mono px-3 py-0.5 rounded-full uppercase font-bold inline-block">
                 ЭКСКЛЮЗИВ ДЛЯ ПЕРВОГО ТАНЦА ИЛИ ГИМНА
               </span>
-              <h2 className="font-serif text-xl sm:text-2xl font-normal">
-                Особенная песня-переделка под ваш вечер
+              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight">
+                Хотите песню, которая будет только вашей?
               </h2>
-              <p className={`text-xs sm:text-sm font-light leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
-                Перепишем слова любимого трека под вашу историю (от 5 000 ₽), запишем в студии (от 15 000 ₽) или споём вместе с вами на сцене.
+              <p className={`text-sm sm:text-base font-light leading-relaxed ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                Присылаете любую песню — переписываем текст под ваш повод: первый танец, поздравление, трогательный момент для родителей. Можно добавить к любому из пакетов.
               </p>
             </div>
-
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <a
-                href={`${CONTACT_INFO.telegram}?text=${encodeURIComponent('Здравствуйте! Хочу узнать про услугу «Песня-переделка» для нашего события.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`px-6 py-3 rounded-full font-display font-black text-xs uppercase tracking-wider transition-all shadow-md ${
-                  isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-[#141218] text-white hover:bg-black'
+            <div className="lg:col-span-5">
+              <div
+                className={`relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border ${
+                  isDark ? 'border-white/15' : 'border-black/15'
                 }`}
               >
-                Обсудить песню в Telegram
-              </a>
+                <img
+                  src={CONTENT_IMAGES.dsc01041}
+                  alt="Вокалист кавер-группы NAKAMA записывает голос в студии"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {SONG_REMAKE_DATA.map((item) => (
+              <div
+                key={item.id}
+                className={`p-6 rounded-[28px] glass-card-frosted flex flex-col justify-between space-y-4 border ${
+                  isDark ? 'border-white/15' : 'border-black/10 bg-white/90'
+                }`}
+              >
+                <div className="space-y-2">
+                  {item.badge && (
+                    <span className="badge-violet text-[9px] font-mono uppercase px-2 py-0.5 rounded-full font-bold inline-block">
+                      {item.badge}
+                    </span>
+                  )}
+                  <h3 className="font-serif text-lg font-normal tracking-tight">{item.title}</h3>
+                  <p className={`text-xs leading-relaxed font-light ${isDark ? 'text-neutral-300' : 'text-[#4A4552]'}`}>
+                    {item.description}
+                  </p>
+                </div>
+                <div
+                  className={`font-mono text-xl font-bold pt-2 border-t ${
+                    isDark ? 'border-white/10 text-[#D49D42]' : 'border-black/10 text-[#B88228]'
+                  }`}
+                >
+                  {item.price}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center">
+            <a
+              href="#booking-section"
+              className={`px-8 py-3.5 rounded-full font-display font-black text-xs uppercase tracking-wider transition-all shadow-md ${
+                isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-[#141218] text-white hover:bg-black'
+              }`}
+            >
+              Заказать услугу
+            </a>
           </div>
         </section>
 
@@ -272,7 +339,7 @@ export const PackagesPage: React.FC = () => {
               / ВОПРОСЫ И ОТВЕТЫ
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl font-normal">
-              Частые вопросы по бронированию
+              Отвечаем заранее
             </h2>
           </div>
 
@@ -281,24 +348,7 @@ export const PackagesPage: React.FC = () => {
               isDark ? 'divide-white/10' : 'divide-black/10'
             }`}
           >
-            {[
-              {
-                q: 'Как забронировать дату и какая предоплата?',
-                a: 'Бронь фиксируется официальным договором и предоплатой 20%. Оставшаяся сумма оплачивается в день мероприятия после завершения выступления.',
-              },
-              {
-                q: 'Что делать, если на площадке нет нужного звукового оборудования?',
-                a: 'У нас есть стандартный технический райдер. Мы напрямую связываемся с прокатчиком площадки или организатором и помогаем скомплектовать оптимальный комплект без лишних затрат.',
-              },
-              {
-                q: 'Выезжаете ли вы в другие города и как считается логистика?',
-                a: 'Да, группа регулярно гастролирует. Дорога и проживание 10 артистов рассчитываются индивидуально по фактической себестоимости и фиксируются в смете до подписания договора.',
-              },
-              {
-                q: 'Можно ли выбрать песни, которые будут звучать?',
-                a: 'Да! В нашем репертуаре более 100 хитов — вы можете отметить любимые и исключить нежелательные. В тарифе «Роскошный максимум» мы также разучиваем до 5 специальных треков под ваш вечер.',
-              },
-            ].map((faq, index) => (
+            {FAQ_DATA.map((faq, index) => (
               <div key={index} className="py-5 space-y-2">
                 <h3 className="font-mono text-xs sm:text-sm font-semibold">{faq.q}</h3>
                 <p
@@ -310,18 +360,69 @@ export const PackagesPage: React.FC = () => {
                 </p>
               </div>
             ))}
+            <div className="py-5 space-y-2">
+              <h3 className="font-mono text-xs sm:text-sm font-semibold">Работаете ли вы с event-агентствами?</h3>
+              <p
+                className={`text-xs font-sans leading-relaxed ${
+                  isDark ? 'text-neutral-300' : 'text-[#4A4552]'
+                }`}
+              >
+                Да, у нас есть отдельные условия для агентств: договор с агентской комиссией, закрывающие документы и технический райдер.{' '}
+                <Link
+                  to="/agencies"
+                  className={`underline underline-offset-2 font-semibold ${isDark ? 'text-[#D49D42]' : 'text-[#B88228]'}`}
+                >
+                  Смотреть условия для агентств →
+                </Link>
+              </p>
+            </div>
           </div>
         </section>
 
         {/* =========================================================================
-            4. ФОРМА ЗАЯВКИ
+            6. ФИНАЛЬНЫЙ CTA-БЛОК
            ========================================================================= */}
         <section>
           <LeadForm
-            title="Забронировать выбранный формат"
-            subtitle="Укажите дату мероприятия и город — менеджер Анна зафиксирует дату по фиксированной смете."
+            title="Остались вопросы?"
+            subtitle="Расскажите нам о своём мероприятии — поможем выбрать пакет и соберём программу под ваш вечер."
           />
         </section>
+
+        {/* Schema.org: Offer x2 + FAQPage — конкретные цены и вопрос-ответ для расширенных сниппетов */}
+        {PACKAGES_DATA.map((pkg) => (
+          <script
+            key={pkg.id}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Offer',
+                name: pkg.title,
+                price: String(pkg.priceNum),
+                priceCurrency: 'RUB',
+                description: `${pkg.duration} кавер-группы NAKAMA, полный состав, свой звукорежиссёр`,
+              }),
+            }}
+          />
+        ))}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: FAQ_DATA.map((faq) => ({
+                '@type': 'Question',
+                name: faq.q,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: faq.a,
+                },
+              })),
+            }),
+          }}
+        />
       </div>
     </div>
   );
